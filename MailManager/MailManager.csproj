@@ -208,8 +208,17 @@
     <Compile Include="Class\AES.cs" />
     <Compile Include="Class\Imap.cs" />
     <Compile Include="Class\MailAccount.cs" />
+    <Compile Include="Components\AdvancedMailsCreatePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Components\MailObject.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\AdvancedOptionsCreateAccountView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\AdvancedOptionsCreateAccountView.Designer.cs">
+      <DependentUpon>AdvancedOptionsCreateAccountView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Mails.cs">
       <SubType>Form</SubType>
@@ -247,6 +256,9 @@
     <Compile Include="MainManager.cs" />
     <Compile Include="Class\Pop3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Views\AdvancedOptionsCreateAccountView.resx">
+      <DependentUpon>AdvancedOptionsCreateAccountView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\CreateAccountView.resx">
       <DependentUpon>CreateAccountView.cs</DependentUpon>
     </EmbeddedResource>

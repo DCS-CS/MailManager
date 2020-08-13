@@ -99,9 +99,11 @@
             Dictionary<string, string> hostNameList = new Dictionary<string, string>
             {
                 { "gmail.com", "imap.gmail.com" },
+                { "gmail.es", "imap.gmail.com" },
                 { "alumnado.fundacionloyola.net", "imap.gmail.com" },
                 { "fundacionloyola.es", "imap.gmail.com" },
                 { "hotmail.com", "imap-mail.outlook.com" },
+                { "hotmail.es", "imap-mail.outlook.com" },
                 { "outlook.com", "imap-mail.outlook.com" }
             };
 
