@@ -73,23 +73,27 @@
             int longitud = TxtMail.Text.Length;
             int count = 0;
 
-            for (int i = 0; i < longitud - 1; i++)
+            if (!string.IsNullOrEmpty(TxtMail.Text))
             {
-                if (TxtMail.Text.Substring(i, 1).Equals("@"))
+                for (int i = 0; i < longitud - 1; i++)
                 {
-                    count++;
+                    if (TxtMail.Text.Substring(i, 1).Equals("@"))
+                    {
+                        count++;
+                    }
+                }
+
+                if (count > 1 || count == 0)
+                {
+                    erp.SetError(TxtMail, "Formato de correo desconocido");
+                    TxtMail.Focus();
+                }
+                else
+                {
+                    erp.Clear();
                 }
             }
-
-            if (count > 1 || count == 0)
-            {
-                erp.SetError(TxtMail, "Formato de correo desconocido");
-                TxtMail.Focus();
-            }
-            else
-            {
-                erp.Clear();
-            }
+            
         }
     }
 }

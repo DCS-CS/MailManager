@@ -1,17 +1,20 @@
-﻿namespace MailManager
-{
-    using Firebase.Auth;
-    using Firebase.Database;
-    using Firebase.Database.Query;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
+﻿using Firebase.Auth;
+using Firebase.Database;
+using Firebase.Database.Query;
+using MailManager.Components;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
+namespace MailManager
+{
     public partial class CreateAccountView : Form
     {
         private readonly List<MailsCreatePanel> panels = new List<MailsCreatePanel>();
+        private readonly List<AdvancedMailsPanel> panelsAdvanced = new List<AdvancedMailsPanel>();
         private readonly MainView view;
+        private bool advancedOption = false;
 
         public CreateAccountView(MainView mainView)
         {
@@ -24,17 +27,38 @@
 
         private void btnAddPanel_Click(object sender, EventArgs e)
         {
-            panels.Add(new MailsCreatePanel());
-            pnlAccountMails.Controls.Add(panels[panels.Count - 1]);
+            if (!advancedOption)
+            {
+                panels.Add(new MailsCreatePanel());
+                pnlAccountMails.Controls.Add(panels[panels.Count - 1]);
+            }
+            else
+            {
+                panelsAdvanced.Add(new AdvancedMailsPanel());
+                pnlAccountMails.Controls.Add(panelsAdvanced[panelsAdvanced.Count - 1]);
+            }
+
         }
 
         private void btnRemovePanel_Click(object sender, EventArgs e)
         {
-            if (panels.Count > 1)
+            if (!advancedOption)
             {
-                pnlAccountMails.Controls.RemoveAt(panels.Count - 1);
-                panels.RemoveAt(panels.Count - 1);
+                if (panels.Count > 1)
+                {
+                    pnlAccountMails.Controls.RemoveAt(panels.Count - 1);
+                    panels.RemoveAt(panels.Count - 1);
+                }
             }
+            else
+            {
+                if (panelsAdvanced.Count > 1)
+                {
+                    pnlAccountMails.Controls.RemoveAt(panelsAdvanced.Count - 1);
+                    panelsAdvanced.RemoveAt(panelsAdvanced.Count - 1);
+                }
+            }
+
         }
 
         private void BtnBack_Click(object sender, EventArgs e)
@@ -79,17 +103,33 @@
                 }
 
                 List<MailAccount> mails = new List<MailAccount>();
-
                 AES.CryptoConfigure();
-
-                foreach (MailsCreatePanel a in panels)
+                
+                if (!advancedOption)
                 {
-                    string mailEncrypted = AES.Encrypt(a.TxtMail.Text);
-                    string passwordEncrypted = AES.Encrypt(a.TxtPasswordMail.Text);
-                    string protocolEncrypted = AES.Encrypt("Imap");
+                    foreach (MailsCreatePanel a in panels)
+                    {
+                        string mailEncrypted = AES.Encrypt(a.TxtMail.Text);
+                        string passwordEncrypted = AES.Encrypt(a.TxtPasswordMail.Text);
+                        string protocolEncrypted = AES.Encrypt("Imap");
 
-                    mails.Add(new MailAccount(mailEncrypted, passwordEncrypted, null, 993, protocolEncrypted, true));
+                        mails.Add(new MailAccount(mailEncrypted, passwordEncrypted, null, 993, protocolEncrypted, true));
+                    }
                 }
+                else
+                {
+                    foreach (AdvancedMailsPanel a in panelsAdvanced)
+                    {
+                        string mailEncrypted = AES.Encrypt(a.TxtMail.Text);
+                        string passwordEncrypted = AES.Encrypt(a.TxtPasswordMail.Text);
+                        string protocolEncrypted = AES.Encrypt(a.CbProtocol.SelectedItem.ToString());
+                        string hostnameEncrypted = AES.Encrypt(a.TxtHostname.Text);
+                        int port = Convert.ToInt32(a.TxtPort.Text);
+
+                        mails.Add(new MailAccount(mailEncrypted, passwordEncrypted, hostnameEncrypted, port, protocolEncrypted, true));
+                    }
+                }
+
 
                 User user = await authProvider.GetUserAsync(createUser.FirebaseToken);
 
@@ -99,8 +139,8 @@
                     .PostAsync(mails);
 
                 MessageBox.Show(
-                    "Cuenta creada",
-                    "Exito");
+                    "Le hemos enviado un correo de verificación a su correo",
+                    "Cuenta creada");
             }
             else
             {
@@ -128,7 +168,8 @@
             int longitud = txtVerificationMail.Text.Length;
             int count = 0;
 
-            for(int i = 0; i < longitud-1; i++)
+
+            for (int i = 0; i < longitud - 1; i++)
             {
                 if (txtVerificationMail.Text.Substring(i, 1).Equals("@"))
                 {
@@ -136,7 +177,7 @@
                 }
             }
 
-            if(count > 1 || count == 0)
+            if (count > 1 || count == 0)
             {
                 erp.SetError(txtVerificationMail, "Formato de correo desconocido");
                 txtVerificationMail.Focus();
@@ -144,6 +185,28 @@
             else
             {
                 erp.Clear();
+            }
+
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (!advancedOption)
+            {
+                pnlAccountMails.Controls.Clear();
+                panels.Clear();
+                panelsAdvanced.Add(new AdvancedMailsPanel());
+                pnlAccountMails.Controls.Add(panelsAdvanced[panelsAdvanced.Count - 1]);
+                advancedOption = true;
+            }
+            else
+            {
+                pnlAccountMails.Controls.Clear();
+                panelsAdvanced.Clear();
+                panels.Add(new MailsCreatePanel());
+                pnlAccountMails.Controls.Add(panels[panels.Count - 1]);
+                advancedOption = false;
             }
         }
     }

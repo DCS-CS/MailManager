@@ -84,7 +84,7 @@
             // 
             this.btnAddPanel.BackColor = System.Drawing.Color.Transparent;
             this.btnAddPanel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnAddPanel.Location = new System.Drawing.Point(16, 148);
+            this.btnAddPanel.Location = new System.Drawing.Point(161, 121);
             this.btnAddPanel.Name = "btnAddPanel";
             this.btnAddPanel.Size = new System.Drawing.Size(75, 31);
             this.btnAddPanel.TabIndex = 3;
@@ -95,7 +95,7 @@
             // btnRemovePanel
             // 
             this.btnRemovePanel.BackColor = System.Drawing.Color.Transparent;
-            this.btnRemovePanel.Location = new System.Drawing.Point(97, 148);
+            this.btnRemovePanel.Location = new System.Drawing.Point(242, 121);
             this.btnRemovePanel.Name = "btnRemovePanel";
             this.btnRemovePanel.Size = new System.Drawing.Size(75, 31);
             this.btnRemovePanel.TabIndex = 4;
@@ -106,39 +106,40 @@
             // pnlAccountMails
             // 
             this.pnlAccountMails.AutoScroll = true;
-            this.pnlAccountMails.Location = new System.Drawing.Point(16, 185);
+            this.pnlAccountMails.Location = new System.Drawing.Point(16, 163);
             this.pnlAccountMails.Name = "pnlAccountMails";
-            this.pnlAccountMails.Size = new System.Drawing.Size(560, 260);
+            this.pnlAccountMails.Size = new System.Drawing.Size(555, 260);
             this.pnlAccountMails.TabIndex = 6;
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(12, 451);
+            this.btnBack.Location = new System.Drawing.Point(12, 435);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(149, 31);
+            this.btnBack.Size = new System.Drawing.Size(91, 31);
             this.btnBack.TabIndex = 7;
-            this.btnBack.Text = "Volver al Login";
+            this.btnBack.Text = "<< Login";
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.BtnBack_Click);
             // 
             // btnCreateAccount
             // 
-            this.btnCreateAccount.Location = new System.Drawing.Point(464, 451);
+            this.btnCreateAccount.Location = new System.Drawing.Point(459, 435);
             this.btnCreateAccount.Name = "btnCreateAccount";
-            this.btnCreateAccount.Size = new System.Drawing.Size(108, 31);
+            this.btnCreateAccount.Size = new System.Drawing.Size(112, 31);
             this.btnCreateAccount.TabIndex = 8;
-            this.btnCreateAccount.Text = "Crear cuenta";
+            this.btnCreateAccount.Text = "Crear Cuenta";
             this.btnCreateAccount.UseVisualStyleBackColor = true;
             this.btnCreateAccount.Click += new System.EventHandler(this.BtnCreateAccount_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(404, 148);
+            this.button1.Location = new System.Drawing.Point(399, 121);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(172, 31);
             this.button1.TabIndex = 5;
             this.button1.Text = "Opciones avanzadas >>";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // lblVerificationMail
             // 
@@ -161,7 +162,7 @@
             // 
             this.lblManagerMail.AutoSize = true;
             this.lblManagerMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblManagerMail.Location = new System.Drawing.Point(13, 117);
+            this.lblManagerMail.Location = new System.Drawing.Point(12, 126);
             this.lblManagerMail.Name = "lblManagerMail";
             this.lblManagerMail.Size = new System.Drawing.Size(133, 18);
             this.lblManagerMail.TabIndex = 13;
@@ -176,7 +177,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(584, 494);
+            this.ClientSize = new System.Drawing.Size(584, 483);
             this.Controls.Add(this.lblManagerMail);
             this.Controls.Add(this.txtVerificationMail);
             this.Controls.Add(this.lblVerificationMail);
