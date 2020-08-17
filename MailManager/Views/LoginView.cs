@@ -107,7 +107,7 @@ namespace MailManager
                                 "Error");
                         }
                     }
-                    catch (Exception)
+                    catch (FirebaseAuthException)
                     {
                         MessageBox.Show(
                             "Los datos son incorrectos",

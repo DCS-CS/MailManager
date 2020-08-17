@@ -5,6 +5,7 @@
     using MailKit.Search;
     using MimeKit;
     using System.Collections.Generic;
+    using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Forms;
@@ -32,7 +33,7 @@
             {
                 await Task.Run(() =>
                 {
-                    MailObject mailObject = new MailObject(this);
+                    MailObject mailObject = new MailObject(this, null);
                     foreach (var header in pro.Headers)
                     {
                         if (header.Field.Equals("Date"))
@@ -78,6 +79,53 @@
             }
 
             return htmlString.Text;
+        }
+
+        public List<Button> GetAttachmentsMail(UniqueId uniqueId)
+        {
+            var bodyStructure = box.Fetch(new List<UniqueId> { uniqueId }, MessageSummaryItems.BodyStructure);
+            List<Button> attachmentsList = null;
+
+            foreach (var body in bodyStructure)
+            {
+                attachmentsList = new List<Button>();
+
+                foreach (var attachment in body.Attachments)
+                {
+                    attachmentsList.Add(new Button()
+                    {
+                        Text = attachment.ContentDisposition?.FileName ?? attachment.ContentType.Name
+                    });
+                }
+            }
+            return attachmentsList;
+        }
+
+        public void DownLoadAttachment(UniqueId uniqueId, string path)
+        {
+            MimeMessage message = box.GetMessage(uniqueId);
+
+            foreach (var attachment in message.Attachments)
+            {
+                var fileName = attachment.ContentDisposition?.FileName ?? attachment.ContentType.Name;
+
+                using (var stream = File.Create(path + "\\" + fileName))
+                {
+                    if (attachment is MessagePart)
+                    {
+                        var rfc822 = (MessagePart)attachment;
+
+                        rfc822.Message.WriteTo(stream);
+                    }
+                    else
+                    {
+                        var part = (MimePart)attachment;
+
+                        part.Content.DecodeTo(stream);
+                    }
+                }
+            }
+
         }
 
         private IMailFolder GetFolderEmails(string folder)

@@ -12,12 +12,14 @@
 
         private delegate void DelegatePanel(Control panel);
         private readonly Imap imp;
+        private readonly Pop3 pop;
 
         public Mails(MailAccount mail)
         {
             InitializeComponent();
             mails = mail;
             imp = new Imap();
+            pop = new Pop3();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -27,17 +29,26 @@
 
         private void Mails_Load(object sender, EventArgs e)
         {
-            int port;
-            if (mails.Puerto != 0)
+            if (mails.Protocol.Equals("IMAP"))
             {
-                port = mails.Puerto;
+                int port;
+                if (mails.Puerto != 0)
+                {
+                    port = mails.Puerto;
+                }
+                else
+                {
+                    port = 993;
+                }
+                imp.Connect(GetHostName(mails.Mail), port, mails.SSL, mails.Mail, mails.Password);
+                imp.Folders(treeView1);
             }
             else
             {
-                port = 993;
+                pop.Connect(mails.Hostname, mails.Puerto, mails.SSL, mails.Mail, mails.Password);
+                pop.GetEmails(this);
             }
-            imp.Connect(GetHostName(mails.Mail), port, mails.SSL, mails.Mail, mails.Password);
-            imp.Folders(treeView1);
+            
         }
 
         private async void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -104,7 +115,9 @@
                 { "fundacionloyola.es", "imap.gmail.com" },
                 { "hotmail.com", "imap-mail.outlook.com" },
                 { "hotmail.es", "imap-mail.outlook.com" },
-                { "outlook.com", "imap-mail.outlook.com" }
+                { "outlook.com", "imap-mail.outlook.com" },
+                { "yahoo.com", "imap.mail.yahoo.com" }
+
             };
 
             return hostNameList[host];

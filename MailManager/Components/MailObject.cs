@@ -1,7 +1,9 @@
 ﻿namespace MailManager
 {
     using MailKit;
+    using MimeKit;
     using System;
+    using System.Collections.Generic;
     using System.Windows.Forms;
 
     internal class MailObject : Panel
@@ -14,15 +16,16 @@
 
         private readonly Panel pnlMailInfo = new Panel();
         private readonly Panel pnlBody = new Panel();
+        private readonly Panel pnlAttachments = new Panel();
         private bool maxMin = true;
         private readonly Imap imap;
+        private readonly MimeMessage message;
 
-        //private MimeMessage message;
-
-        public MailObject(Imap imap)
+        public MailObject(Imap imap, MimeMessage message)
         {
             this.imap = imap;
-            //this.message = message;
+            this.message = message;
+
             UniqueId = new UniqueId();
             Subject = new Label();
             From = new Label();
@@ -34,15 +37,16 @@
             Label lblDateTag = new Label();
 
             // 
-            // pnlMails
+            // pnlMailObject
             // 
             AutoSize = true;
+            Controls.Add(pnlAttachments);
             Controls.Add(pnlBody);
             Controls.Add(pnlMailInfo);
             Dock = DockStyle.Top;
             Location = new System.Drawing.Point(0, 0);
             Name = "pnlMails";
-            Size = new System.Drawing.Size(817, 435);
+            Size = new System.Drawing.Size(817, 485);
             TabIndex = 0;
             BackColor = System.Drawing.Color.AliceBlue;
             // 
@@ -73,6 +77,17 @@
             pnlBody.Visible = false;
             pnlBody.AutoScroll = true;
             pnlBody.BorderStyle = BorderStyle.FixedSingle;
+            // 
+            // pnlAttachments
+            // 
+            pnlAttachments.Dock = DockStyle.Top;
+            pnlAttachments.Location = new System.Drawing.Point(0, 435);
+            pnlAttachments.Name = "pnlAttachments";
+            pnlAttachments.Size = new System.Drawing.Size(817, 50);
+            pnlAttachments.TabIndex = 2;
+            pnlAttachments.Visible = false;
+            pnlAttachments.AutoScroll = true;
+            pnlAttachments.BorderStyle = BorderStyle.FixedSingle;
             // 
             // lblFromTag
             // 
@@ -164,20 +179,59 @@
             {
                 pnlBody.Visible = true;
                 maxMin = false;
-                WebBrowser web = new WebBrowser
+                
+                WebBrowser web;
+                if (imap != null)
                 {
-                    DocumentText = imap.GetBodyMail(UniqueId),
-                    Dock = DockStyle.Fill
-                };
+                    web = new WebBrowser
+                    {
+                        DocumentText = imap.GetBodyMail(UniqueId),
+                        Dock = DockStyle.Fill
+                    };
+                }
+                else
+                {
+                    web = new WebBrowser
+                    {
+                        DocumentText = message.HtmlBody,
+                        Dock = DockStyle.Fill
+                    };
+                }
                 pnlBody.Controls.Add(web);
+
+                if(imap != null)
+                {
+                    List<Button> attachments = imap.GetAttachmentsMail(UniqueId);
+                    if (attachments != null && attachments.Count > 0) 
+                    {
+                        pnlAttachments.Visible = true;
+                        foreach (var attachment in attachments)
+                        {
+                            attachment.Click += new EventHandler(downloadAttachment);
+                            pnlAttachments.Controls.Add(attachment);
+                        }
+                    }   
+                }
             }
             else
             {
+                pnlAttachments.Visible = false;
                 pnlBody.Visible = false;
                 maxMin = true;
-                pnlBody.Controls[0].Dispose();
+                pnlBody.Controls.Clear();
+                pnlAttachments.Controls.Clear();
             }
         }
 
+        private void downloadAttachment(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folder = new FolderBrowserDialog();
+
+            if(folder.ShowDialog() == DialogResult.OK)
+            {
+                imap.DownLoadAttachment(UniqueId, folder.SelectedPath);
+                //TODO: Probar si funciona esto
+            }
+        }
     }
 }

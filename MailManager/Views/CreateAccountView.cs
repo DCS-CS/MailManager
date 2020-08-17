@@ -111,7 +111,7 @@ namespace MailManager
                     {
                         string mailEncrypted = AES.Encrypt(a.TxtMail.Text);
                         string passwordEncrypted = AES.Encrypt(a.TxtPasswordMail.Text);
-                        string protocolEncrypted = AES.Encrypt("Imap");
+                        string protocolEncrypted = AES.Encrypt("IMAP");
 
                         mails.Add(new MailAccount(mailEncrypted, passwordEncrypted, null, 993, protocolEncrypted, true));
                     }
