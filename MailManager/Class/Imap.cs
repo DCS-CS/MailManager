@@ -94,7 +94,8 @@
                 {
                     attachmentsList.Add(new Button()
                     {
-                        Text = attachment.ContentDisposition?.FileName ?? attachment.ContentType.Name
+                        Text = attachment.ContentDisposition?.FileName ?? attachment.ContentType.Name,
+                        AutoSize = true
                     });
                 }
             }

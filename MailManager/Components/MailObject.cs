@@ -16,7 +16,7 @@
 
         private readonly Panel pnlMailInfo = new Panel();
         private readonly Panel pnlBody = new Panel();
-        private readonly Panel pnlAttachments = new Panel();
+        private readonly FlowLayoutPanel pnlAttachments = new FlowLayoutPanel();
         private bool maxMin = true;
         private readonly Imap imap;
         private readonly MimeMessage message;
@@ -207,7 +207,7 @@
                         pnlAttachments.Visible = true;
                         foreach (var attachment in attachments)
                         {
-                            attachment.Click += new EventHandler(downloadAttachment);
+                            attachment.Click += new EventHandler(DownloadAttachment);
                             pnlAttachments.Controls.Add(attachment);
                         }
                     }   
@@ -223,14 +223,13 @@
             }
         }
 
-        private void downloadAttachment(object sender, EventArgs e)
+        private void DownloadAttachment(object sender, EventArgs e)
         {
             FolderBrowserDialog folder = new FolderBrowserDialog();
 
             if(folder.ShowDialog() == DialogResult.OK)
             {
                 imap.DownLoadAttachment(UniqueId, folder.SelectedPath);
-                //TODO: Probar si funciona esto
             }
         }
     }
