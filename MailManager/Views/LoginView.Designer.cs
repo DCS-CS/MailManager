@@ -42,6 +42,7 @@
             // 
             // lklblNewAccount
             // 
+            this.lklblNewAccount.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lklblNewAccount.AutoSize = true;
             this.lklblNewAccount.Location = new System.Drawing.Point(12, 416);
             this.lklblNewAccount.Name = "lklblNewAccount";
@@ -53,6 +54,7 @@
             // 
             // lblPassword
             // 
+            this.lblPassword.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblPassword.AutoSize = true;
             this.lblPassword.Location = new System.Drawing.Point(122, 264);
             this.lblPassword.Name = "lblPassword";
@@ -62,6 +64,7 @@
             // 
             // lblUser
             // 
+            this.lblUser.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblUser.AutoSize = true;
             this.lblUser.Location = new System.Drawing.Point(122, 205);
             this.lblUser.Name = "lblUser";
@@ -71,6 +74,7 @@
             // 
             // txtPassword
             // 
+            this.txtPassword.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtPassword.Location = new System.Drawing.Point(125, 284);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
@@ -79,6 +83,7 @@
             // 
             // txtUser
             // 
+            this.txtUser.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtUser.Location = new System.Drawing.Point(125, 225);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(186, 22);
@@ -86,6 +91,7 @@
             // 
             // btnLogin
             // 
+            this.btnLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnLogin.Location = new System.Drawing.Point(125, 332);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(186, 34);
@@ -96,6 +102,7 @@
             // 
             // pictureBox2
             // 
+            this.pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox2.Image = global::MailManager.Properties.Resources.San_Jose;
             this.pictureBox2.Location = new System.Drawing.Point(301, 393);
             this.pictureBox2.Name = "pictureBox2";
@@ -106,6 +113,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.Image = global::MailManager.Properties.Resources.doc4;
             this.pictureBox1.Location = new System.Drawing.Point(67, 29);
             this.pictureBox1.Name = "pictureBox1";
@@ -118,8 +126,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(451, 473);
             this.Controls.Add(this.pictureBox2);

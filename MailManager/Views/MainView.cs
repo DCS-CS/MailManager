@@ -1,4 +1,5 @@
 ﻿using Firebase.Auth;
+using MailManager.Views;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -11,6 +12,8 @@ namespace MailManager
         private int posY = 0;
 
         public static User UserApp { get; set; }
+        public static FirebaseAuthLink SignIn { get; set; }
+        public static FirebaseAuthProvider AuthProvider { get; set; }
 
         public MainView()
         {
@@ -26,6 +29,8 @@ namespace MailManager
             {
                 pnlTitle.MouseMove += new MouseEventHandler(pnlTitle_MouseMove);
             }
+
+            
         }
 
         public void ChangeView(Form viewChange)
@@ -40,19 +45,16 @@ namespace MailManager
             view.Dock = DockStyle.Fill;
             pnlView.Controls.Add(view);
             pnlView.Tag = view;
-            pnlView.Height = view.Height;
-            pnlView.Width = view.Width;
-            pnlContainer.Height = view.Height;
-            pnlContainer.Width = view.Width;
-            Height = viewChange.Height;
-            Width = viewChange.Width;
+            Width = view.Width + 30;
+            Height = view.Height + 30;
             view.Show();
-
+            configuraciónToolStripMenuItem.Enabled = true;
         }
 
         private void LoginView_Load(object sender, EventArgs e)
         {
             ChangeView(new Login(this));
+            configuraciónToolStripMenuItem.Enabled = false;
         }
 
         private void IconClose_Click(object sender, EventArgs e)
@@ -108,6 +110,11 @@ namespace MailManager
         {
             //Imap.Disconnect();
             // Hallar una forma de desconectar el IMAP
+        }
+
+        private void configuraciónToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new ProfileView(SignIn, UserApp).ShowDialog();
         }
     }
 }

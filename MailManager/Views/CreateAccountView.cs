@@ -11,8 +11,8 @@ namespace MailManager
 {
     public partial class CreateAccountView : Form
     {
-        private readonly List<MailsCreatePanel> panels = new List<MailsCreatePanel>();
-        private readonly List<AdvancedMailsPanel> panelsAdvanced = new List<AdvancedMailsPanel>();
+        private readonly List<MailsCreatePanel> panels;
+        private readonly List<AdvancedMailsPanel> panelsAdvanced;
         private readonly MainView view;
         private bool advancedOption = false;
 
@@ -21,6 +21,9 @@ namespace MailManager
             InitializeComponent();
 
             view = mainView;
+            panels = new List<MailsCreatePanel>();
+            panelsAdvanced = new List<AdvancedMailsPanel>();
+
             panels.Add(new MailsCreatePanel());
             pnlAccountMails.Controls.Add(panels[panels.Count - 1]);
         }
@@ -135,7 +138,7 @@ namespace MailManager
 
                 var mailsFirebase = await client
                     .Child("User Account")
-                    .Child(user.DisplayName + " Mails")
+                    .Child($"{user.DisplayName} Mails")
                     .PostAsync(mails);
 
                 MessageBox.Show(
@@ -145,21 +148,24 @@ namespace MailManager
             else
             {
                 MessageBox.Show(
-                    "Ni el correo ni la contraseña ni el nombre pueden estar vacíos",
+                    "El correo, la contraseña y el nombre son obligatorios",
                     "Error");
             }
         }
 
         private void txtPassword_Leave(object sender, EventArgs e)
         {
-            if (txtPassword.Text.Length > 16 || txtPassword.Text.Length < 6)
+            if (!string.IsNullOrEmpty(txtPassword.Text))
             {
-                erp.SetError(txtPassword, "Escribe entre 6 y 16 caracteres para la contraseña");
-                txtPassword.Focus();
-            }
-            else
-            {
-                erp.Clear();
+                if (txtPassword.Text.Length > 16 || txtPassword.Text.Length < 6)
+                {
+                    erp.SetError(txtPassword, "Escribe entre 6 y 16 caracteres para la contraseña");
+                    txtPassword.Focus();
+                }
+                else
+                {
+                    erp.Clear();
+                }
             }
         }
 
@@ -168,32 +174,33 @@ namespace MailManager
             int longitud = txtVerificationMail.Text.Length;
             int count = 0;
 
-
-            for (int i = 0; i < longitud - 1; i++)
+            if (!string.IsNullOrEmpty(txtVerificationMail.Text))
             {
-                if (txtVerificationMail.Text.Substring(i, 1).Equals("@"))
+                for (int i = 0; i < longitud - 1; i++)
                 {
-                    count++;
+                    if (txtVerificationMail.Text.Substring(i, 1).Equals("@"))
+                    {
+                        count++;
+                    }
+                }
+
+                if (count > 1 || count == 0)
+                {
+                    erp.SetError(txtVerificationMail, "Formato de correo desconocido");
+                    txtVerificationMail.Focus();
+                }
+                else
+                {
+                    erp.Clear();
                 }
             }
-
-            if (count > 1 || count == 0)
-            {
-                erp.SetError(txtVerificationMail, "Formato de correo desconocido");
-                txtVerificationMail.Focus();
-            }
-            else
-            {
-                erp.Clear();
-            }
-
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             if (!advancedOption)
             {
+                btnAdvancedOptions.Text = "Opciones normales >>";
                 pnlAccountMails.Controls.Clear();
                 panels.Clear();
                 panelsAdvanced.Add(new AdvancedMailsPanel());
@@ -202,6 +209,7 @@ namespace MailManager
             }
             else
             {
+                btnAdvancedOptions.Text = "Opciones avanzadas >>";
                 pnlAccountMails.Controls.Clear();
                 panelsAdvanced.Clear();
                 panels.Add(new MailsCreatePanel());

@@ -38,7 +38,7 @@
             this.pnlAccountMails = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnCreateAccount = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnAdvancedOptions = new System.Windows.Forms.Button();
             this.lblVerificationMail = new System.Windows.Forms.Label();
             this.txtVerificationMail = new System.Windows.Forms.TextBox();
             this.lblManagerMail = new System.Windows.Forms.Label();
@@ -49,7 +49,7 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(13, 63);
+            this.lblName.Location = new System.Drawing.Point(524, 9);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(62, 17);
             this.lblName.TabIndex = 0;
@@ -66,7 +66,7 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(16, 83);
+            this.txtName.Location = new System.Drawing.Point(527, 29);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(193, 22);
             this.txtName.TabIndex = 2;
@@ -84,7 +84,7 @@
             // 
             this.btnAddPanel.BackColor = System.Drawing.Color.Transparent;
             this.btnAddPanel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnAddPanel.Location = new System.Drawing.Point(161, 121);
+            this.btnAddPanel.Location = new System.Drawing.Point(16, 126);
             this.btnAddPanel.Name = "btnAddPanel";
             this.btnAddPanel.Size = new System.Drawing.Size(75, 31);
             this.btnAddPanel.TabIndex = 3;
@@ -95,7 +95,7 @@
             // btnRemovePanel
             // 
             this.btnRemovePanel.BackColor = System.Drawing.Color.Transparent;
-            this.btnRemovePanel.Location = new System.Drawing.Point(242, 121);
+            this.btnRemovePanel.Location = new System.Drawing.Point(97, 126);
             this.btnRemovePanel.Name = "btnRemovePanel";
             this.btnRemovePanel.Size = new System.Drawing.Size(75, 31);
             this.btnRemovePanel.TabIndex = 4;
@@ -105,14 +105,19 @@
             // 
             // pnlAccountMails
             // 
+            this.pnlAccountMails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlAccountMails.AutoScroll = true;
+            this.pnlAccountMails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlAccountMails.Location = new System.Drawing.Point(16, 163);
             this.pnlAccountMails.Name = "pnlAccountMails";
-            this.pnlAccountMails.Size = new System.Drawing.Size(555, 260);
+            this.pnlAccountMails.Size = new System.Drawing.Size(908, 260);
             this.pnlAccountMails.TabIndex = 6;
             // 
             // btnBack
             // 
+            this.btnBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnBack.Location = new System.Drawing.Point(12, 435);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(91, 31);
@@ -123,7 +128,8 @@
             // 
             // btnCreateAccount
             // 
-            this.btnCreateAccount.Location = new System.Drawing.Point(459, 435);
+            this.btnCreateAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCreateAccount.Location = new System.Drawing.Point(812, 435);
             this.btnCreateAccount.Name = "btnCreateAccount";
             this.btnCreateAccount.Size = new System.Drawing.Size(112, 31);
             this.btnCreateAccount.TabIndex = 8;
@@ -131,15 +137,16 @@
             this.btnCreateAccount.UseVisualStyleBackColor = true;
             this.btnCreateAccount.Click += new System.EventHandler(this.BtnCreateAccount_Click);
             // 
-            // button1
+            // btnAdvancedOptions
             // 
-            this.button1.Location = new System.Drawing.Point(399, 121);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(172, 31);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Opciones avanzadas >>";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnAdvancedOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAdvancedOptions.Location = new System.Drawing.Point(752, 126);
+            this.btnAdvancedOptions.Name = "btnAdvancedOptions";
+            this.btnAdvancedOptions.Size = new System.Drawing.Size(172, 31);
+            this.btnAdvancedOptions.TabIndex = 5;
+            this.btnAdvancedOptions.Text = "Opciones avanzadas >>";
+            this.btnAdvancedOptions.UseVisualStyleBackColor = true;
+            this.btnAdvancedOptions.Click += new System.EventHandler(this.button1_Click);
             // 
             // lblVerificationMail
             // 
@@ -162,7 +169,7 @@
             // 
             this.lblManagerMail.AutoSize = true;
             this.lblManagerMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblManagerMail.Location = new System.Drawing.Point(12, 126);
+            this.lblManagerMail.Location = new System.Drawing.Point(12, 93);
             this.lblManagerMail.Name = "lblManagerMail";
             this.lblManagerMail.Size = new System.Drawing.Size(133, 18);
             this.lblManagerMail.TabIndex = 13;
@@ -177,11 +184,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(584, 483);
+            this.ClientSize = new System.Drawing.Size(937, 483);
             this.Controls.Add(this.lblManagerMail);
             this.Controls.Add(this.txtVerificationMail);
             this.Controls.Add(this.lblVerificationMail);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnAdvancedOptions);
             this.Controls.Add(this.btnCreateAccount);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.pnlAccountMails);
@@ -211,7 +218,7 @@
         private System.Windows.Forms.Panel pnlAccountMails;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button btnCreateAccount;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnAdvancedOptions;
         private System.Windows.Forms.Label lblVerificationMail;
         private System.Windows.Forms.TextBox txtVerificationMail;
         private System.Windows.Forms.Label lblManagerMail;

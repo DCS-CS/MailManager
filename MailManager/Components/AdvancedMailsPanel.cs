@@ -14,10 +14,11 @@ namespace MailManager.Components
             TxtHostname = new TextBox();
             TxtPort = new TextBox();
             CbProtocol = new ComboBox();
+            
             Label lblHostname = new Label();
             Label lblPort = new Label();
             Label lblProtocol = new Label();
-
+            
             Controls.Add(TxtHostname);
             Controls.Add(TxtPort);
             Controls.Add(CbProtocol);
@@ -27,21 +28,21 @@ namespace MailManager.Components
             //
             // TxtHostname
             //
-            TxtHostname.Location = new System.Drawing.Point(240, 70);
-            TxtHostname.Size = new System.Drawing.Size(125, 25);
+            TxtHostname.Location = new System.Drawing.Point(532, 22);
+            TxtHostname.Size = new System.Drawing.Size(150, 25);
             TxtHostname.Name = "TxtHostname";
             TxtHostname.TabIndex = 4;
             //
             // lblHostname
             //
             lblHostname.AutoSize = true;
-            lblHostname.Location = new System.Drawing.Point(240, 50);
+            lblHostname.Location = new System.Drawing.Point(532, 2);
             lblHostname.Name = "lblHostname";
             lblHostname.Text = "Servidor:";
             //
             // TxtPort
             //
-            TxtPort.Location = new System.Drawing.Point(150, 70);
+            TxtPort.Location = new System.Drawing.Point(478, 22);
             TxtPort.Size = new System.Drawing.Size(50, 25);
             TxtPort.Name = "TxtHostname";
             TxtPort.TabIndex = 4;
@@ -50,13 +51,13 @@ namespace MailManager.Components
             // lblPort
             //
             lblPort.AutoSize = true;
-            lblPort.Location = new System.Drawing.Point(150, 50);
+            lblPort.Location = new System.Drawing.Point(478, 2);
             lblPort.Name = "lblPort";
             lblPort.Text = "Puerto:";
             //
             // CbProtocol
             //
-            CbProtocol.Location = new System.Drawing.Point(4, 70);
+            CbProtocol.Location = new System.Drawing.Point(394, 22);
             CbProtocol.FormattingEnabled = true;
             CbProtocol.Size = new System.Drawing.Size(80, 25);
             CbProtocol.SelectedIndexChanged += new EventHandler(CbProtocol_SelectedIndexChanged);
@@ -70,7 +71,7 @@ namespace MailManager.Components
             // lblProtocol
             //
             lblProtocol.AutoSize = true;
-            lblProtocol.Location = new System.Drawing.Point(4, 50);
+            lblProtocol.Location = new System.Drawing.Point(394, 2);
             lblProtocol.Name = "lblProtocol";
             lblProtocol.Text = "Protocolo:";
         }

@@ -58,6 +58,7 @@ namespace MailManager
                 {
                     try
                     {
+                        
                         var signIn = await authProvider.SignInWithEmailAndPasswordAsync(txtUser.Text, txtPassword.Text);
                         User user = await authProvider.GetUserAsync(signIn.FirebaseToken);
                         if (user.IsEmailVerified)
@@ -66,7 +67,7 @@ namespace MailManager
 
                             var query2 = await client
                             .Child("User Account")
-                            .Child(user.DisplayName + " Mails")
+                            .Child($"{user.DisplayName} Mails")
                             .OrderByKey()
                             .OnceAsync<List<MailAccount>>();
 
@@ -98,7 +99,10 @@ namespace MailManager
 
                             view.ChangeView(new ManagedAccountView(mailsDencrypt));
                             view.Location = new Point(200, 100);
+                            MainView.SignIn = signIn;
                             MainView.UserApp = user;
+                            MainView.AuthProvider = authProvider;
+                            
                         }
                         else
                         {
