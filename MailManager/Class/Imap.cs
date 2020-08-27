@@ -25,7 +25,7 @@
             box = GetFolderEmails(folder);
 
             box.Open(FolderAccess.ReadOnly);
-            var query = SearchQuery.SubjectContains("*");
+            var query = SearchQuery.All;
             var uids = box.Search(query);
             var prueba = box.Fetch(uids, MessageSummaryItems.UniqueId | MessageSummaryItems.Headers);
 
@@ -46,7 +46,15 @@
                             if (header.Value.Contains("<"))
                             {
                                 int character = header.Value.IndexOf("<");
-                                string from = header.Value.Substring(0, character - 1);
+                                string from = null;
+                                if(character == 0)
+                                {
+                                    from = header.Value.Substring(0);
+                                }
+                                else
+                                {
+                                    from = header.Value.Substring(0, character - 1);
+                                }
                                 mailObject.From.Text = from;
                             }
                         }
@@ -74,6 +82,10 @@
             {
                 var htmlPart = body.HtmlBody;
 
+                if(htmlPart == null)
+                {
+                    htmlPart = body.TextBody;
+                }
                 htmlString = (TextPart)box.GetBodyPart(uniqueId, htmlPart);
 
             }

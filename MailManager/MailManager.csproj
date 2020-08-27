@@ -206,6 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\AES.cs" />
+    <Compile Include="Class\FireConfig.cs" />
     <Compile Include="Class\Imap.cs" />
     <Compile Include="Class\MailAccount.cs" />
     <Compile Include="Components\AdvancedMailsPanel.cs">

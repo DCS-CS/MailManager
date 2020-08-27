@@ -1,6 +1,7 @@
 ﻿using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Database.Query;
+using MailManager.Class;
 using MailManager.Components;
 using System;
 using System.Collections.Generic;
@@ -76,19 +77,10 @@ namespace MailManager
             if (!string.IsNullOrEmpty(txtName.Text) && !string.IsNullOrEmpty(txtPassword.Text)
                 && !string.IsNullOrEmpty(txtVerificationMail.Text))
             {
-                string auth = "fHpWjVWQYzXVy4nwZpqmpvkMySYzRM9I4csjFWAt";
-                string auth2 = "AIzaSyCX0f-fX3B1EWpUtGWuF-WEzebQihg3H-E";
-                string url = "https://mailmanager-49f1c.firebaseio.com";
-                FirebaseClient client = new FirebaseClient(
-                    url,
-                    new FirebaseOptions
-                    {
-                        AuthTokenAsyncFactory = () => Task.FromResult(auth)
-                    });
-
-                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(auth2));
-
+                FirebaseClient client = FireConfig.GetClient();
+                FirebaseAuthProvider authProvider = FireConfig.GetAuthProvider();
                 FirebaseAuthLink createUser = null;
+                
                 try
                 {
                     createUser = await authProvider.CreateUserWithEmailAndPasswordAsync(
@@ -112,38 +104,44 @@ namespace MailManager
                 {
                     foreach (MailsCreatePanel a in panels)
                     {
-                        string mailEncrypted = AES.Encrypt(a.TxtMail.Text);
-                        string passwordEncrypted = AES.Encrypt(a.TxtPasswordMail.Text);
-                        string protocolEncrypted = AES.Encrypt("IMAP");
-
-                        mails.Add(new MailAccount(mailEncrypted, passwordEncrypted, null, 993, protocolEncrypted, true));
+                        mails.Add(new MailAccount(
+                            AES.Encrypt(a.TxtMail.Text),
+                            AES.Encrypt(a.TxtPasswordMail.Text), 
+                            null, 
+                            993,
+                            AES.Encrypt("IMAP"), 
+                            true));
                     }
                 }
                 else
                 {
                     foreach (AdvancedMailsPanel a in panelsAdvanced)
                     {
-                        string mailEncrypted = AES.Encrypt(a.TxtMail.Text);
-                        string passwordEncrypted = AES.Encrypt(a.TxtPasswordMail.Text);
-                        string protocolEncrypted = AES.Encrypt(a.CbProtocol.SelectedItem.ToString());
-                        string hostnameEncrypted = AES.Encrypt(a.TxtHostname.Text);
-                        int port = Convert.ToInt32(a.TxtPort.Text);
-
-                        mails.Add(new MailAccount(mailEncrypted, passwordEncrypted, hostnameEncrypted, port, protocolEncrypted, true));
+                        mails.Add(new MailAccount(
+                            AES.Encrypt(a.TxtMail.Text),
+                            AES.Encrypt(a.TxtPasswordMail.Text),
+                            AES.Encrypt(a.TxtHostname.Text), 
+                            Convert.ToInt32(a.TxtPort.Text),
+                            AES.Encrypt(a.CbProtocol.SelectedItem.ToString()), 
+                            true));
                     }
                 }
 
 
                 User user = await authProvider.GetUserAsync(createUser.FirebaseToken);
-
-                var mailsFirebase = await client
+                
+                _ = await client
                     .Child("User Account")
                     .Child($"{user.DisplayName} Mails")
                     .PostAsync(mails);
 
                 MessageBox.Show(
                     "Le hemos enviado un correo de verificación a su correo",
-                    "Cuenta creada");
+                    "Exito");
+
+                view.ChangeView(new Login(view));
+                Dispose();
+                Close();
             }
             else
             {

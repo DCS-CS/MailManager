@@ -1,6 +1,7 @@
 ﻿using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Database.Query;
+using MailManager.Class;
 using MailManager.Components;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,12 @@ namespace MailManager.Views
     {
         private int posX = 0;
         private int posY = 0;
+
         private readonly FirebaseAuthLink signIn;
         private readonly User userApp;
+        private readonly FirebaseAuthProvider authProvider;
 
-        public ProfileView(FirebaseAuthLink signIn, User userApp)
+        public ProfileView(FirebaseAuthLink signIn, User userApp, FirebaseAuthProvider authProvider)
         {
             InitializeComponent();
 
@@ -32,6 +35,7 @@ namespace MailManager.Views
 
             this.signIn = signIn;
             this.userApp = userApp;
+            this.authProvider = authProvider;
         }
 
         private void IconClose_Click(object sender, EventArgs e)
@@ -67,14 +71,8 @@ namespace MailManager.Views
 
         private async void ProfileView_Load(object sender, EventArgs e)
         {
-            string auth = "fHpWjVWQYzXVy4nwZpqmpvkMySYzRM9I4csjFWAt";
-            string url = "https://mailmanager-49f1c.firebaseio.com";
-            FirebaseClient client = new FirebaseClient(
-                url,
-                new FirebaseOptions
-                {
-                    AuthTokenAsyncFactory = () => Task.FromResult(auth)
-                });
+            FirebaseClient client = FireConfig.GetClient();
+            
             txtVerificationMail.Text = userApp.Email;
             txtName.Text = userApp.DisplayName;
 
@@ -93,8 +91,6 @@ namespace MailManager.Views
 
             AES.CryptoConfigure();
 
-            List<MailAccount> mailsDencrypt = new List<MailAccount>();
-
             foreach (MailAccount account in mails)
             {
                 AdvancedMailsPanel mailsPanel = new AdvancedMailsPanel();
@@ -106,7 +102,7 @@ namespace MailManager.Views
                 if(!string.IsNullOrEmpty(account.Hostname))
                 mailsPanel.TxtHostname.Text = AES.Dencrypt(account.Hostname);
 
-                panel1.Controls.Add(mailsPanel);
+                pnlMails.Controls.Add(mailsPanel);
             }
         }
 
@@ -114,6 +110,57 @@ namespace MailManager.Views
         {
             Close();
             Dispose();
+        }
+
+        private async void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtNewPassword.Text))
+            {
+                await authProvider.ChangeUserPassword(signIn.FirebaseToken, txtNewPassword.Text);
+                MessageBox.Show(
+                    "Contraseña cambiada",
+                    "Exito");
+            }
+        }
+
+        private async void btnSaveChanges_Click(object sender, EventArgs e)
+        {
+            List<MailAccount> mails = new List<MailAccount>();
+            foreach(AdvancedMailsPanel a in pnlMails.Controls)
+            {
+                mails.Add(new MailAccount(
+                    AES.Encrypt(a.TxtMail.Text),
+                    AES.Encrypt(a.TxtPasswordMail.Text),
+                    AES.Encrypt(a.TxtHostname.Text),
+                    Convert.ToInt32(a.TxtPort.Text),
+                    AES.Encrypt(a.CbProtocol.Text),
+                    true
+                    ));
+            }
+
+            FirebaseClient client = FireConfig.GetClient();
+
+            await client
+                .Child("User Account")
+                .Child($"{userApp.DisplayName} Mails")
+                .DeleteAsync();
+
+            await client
+                .Child("User Account")
+                .Child($"{userApp.DisplayName} Mails")
+                .PostAsync(mails);
+
+            MessageBox.Show(
+                "Cambios guardados",
+                "Exito");
+
+            Close();
+            Dispose();
+        }
+
+        private void btnAddMail_Click(object sender, EventArgs e)
+        {
+            pnlMails.Controls.Add(new AdvancedMailsPanel());
         }
     }
 }

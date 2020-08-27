@@ -114,7 +114,7 @@ namespace MailManager
 
         private void configuraciónToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new ProfileView(SignIn, UserApp).ShowDialog();
+            new ProfileView(SignIn, UserApp, AuthProvider).ShowDialog();
         }
     }
 }

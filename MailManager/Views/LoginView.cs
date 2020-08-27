@@ -1,6 +1,7 @@
 ﻿using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Database.Query;
+using MailManager.Class;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -28,17 +29,8 @@ namespace MailManager
 
         private async void BtnLogin_Click(object sender, EventArgs e)
         {
-            string auth = "fHpWjVWQYzXVy4nwZpqmpvkMySYzRM9I4csjFWAt";
-            string auth2 = "AIzaSyCX0f-fX3B1EWpUtGWuF-WEzebQihg3H-E";
-            string url = "https://mailmanager-49f1c.firebaseio.com";
-            FirebaseClient client = new FirebaseClient(
-                url,
-                new FirebaseOptions
-                {
-                    AuthTokenAsyncFactory = () => Task.FromResult(auth)
-                });
-
-            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(auth2)); 
+            FirebaseClient client = FireConfig.GetClient();
+            FirebaseAuthProvider authProvider = FireConfig.GetAuthProvider(); 
 
             if (string.IsNullOrEmpty(txtUser.Text))
             {
@@ -82,23 +74,24 @@ namespace MailManager
 
                             foreach (MailAccount account in mails)
                             {
-                                string mail = AES.Dencrypt(account.Mail);
-                                string password = AES.Dencrypt(account.Password);
                                 string hostname = null;
                                 if (!string.IsNullOrEmpty(account.Hostname))
                                 {
                                     hostname = AES.Dencrypt(account.Hostname);
                                 }
-                                int port = account.Puerto;
-                                string protocol = AES.Dencrypt(account.Protocol);
-                                bool ssl = account.SSL;
-
-
-                                mailsDencrypt.Add(new MailAccount(mail, password, hostname, port, protocol, ssl));
+                                
+                                mailsDencrypt.Add(new MailAccount(
+                                    AES.Dencrypt(account.Mail), 
+                                    AES.Dencrypt(account.Password), 
+                                    hostname, 
+                                    account.Puerto,
+                                    AES.Dencrypt(account.Protocol),
+                                    account.SSL));
                             }
 
                             view.ChangeView(new ManagedAccountView(mailsDencrypt));
                             view.Location = new Point(200, 100);
+                            
                             MainView.SignIn = signIn;
                             MainView.UserApp = user;
                             MainView.AuthProvider = authProvider;
