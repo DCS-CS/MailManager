@@ -1,5 +1,6 @@
 ﻿namespace MailManager
 {
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Windows.Forms;
@@ -24,14 +25,14 @@
                     Text = mail.Mail,
                     UseVisualStyleBackColor = true
                 };
-
+                mailpage.Dock = DockStyle.Fill;
                 mailpage.TopLevel = false;
                 page.Controls.Add(mailpage);        
                 Height = mailpage.Height + 20;
                 Width = mailpage.Width + 15;
                 mailpage.Show();
 
-                tabControl1.Controls.Add(page);
+                tabControl1.TabPages.Add(page);
             }
         }
     }

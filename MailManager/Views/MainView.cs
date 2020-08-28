@@ -19,8 +19,6 @@ namespace MailManager
         {
             InitializeComponent();
 
-            //TODO: Hacer ventana de configuración de cuenta obteniendo los datos de firebase y poder modificar los mismos
-
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
                 pnlTitle.MouseDown += new MouseEventHandler(pnlTitle_MouseDown);
