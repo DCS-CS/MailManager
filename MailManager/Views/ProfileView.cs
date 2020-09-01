@@ -128,10 +128,14 @@ namespace MailManager.Views
             List<MailAccount> mails = new List<MailAccount>();
             foreach(AdvancedMailsPanel a in pnlMails.Controls)
             {
+                string hostname = null;
+                if (!string.IsNullOrEmpty(a.TxtHostname.Text))
+                    hostname = AES.Encrypt(a.TxtHostname.Text);
+
                 mails.Add(new MailAccount(
                     AES.Encrypt(a.TxtMail.Text),
                     AES.Encrypt(a.TxtPasswordMail.Text),
-                    AES.Encrypt(a.TxtHostname.Text),
+                    hostname,
                     Convert.ToInt32(a.TxtPort.Text),
                     AES.Encrypt(a.CbProtocol.Text),
                     true

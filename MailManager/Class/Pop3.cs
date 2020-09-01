@@ -2,6 +2,7 @@
 {
     using MailKit.Net.Pop3;
     using MimeKit;
+    using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -17,7 +18,6 @@
 
         public async void GetEmails(Mails mails)
         {
-
             for (int i = 0; i < client.Count; i++)
             {
                 await Task.Run( () =>
@@ -52,6 +52,30 @@
 
                     mails.AddControl(mailObject);
                 }, CancellationToken.None);
+            }
+        }
+
+        public void DownloadAttachment(MimeMessage message, string pathMail)
+        {
+            foreach (var attachment in message.Attachments)
+            {
+                var fileName = attachment.ContentDisposition?.FileName ?? attachment.ContentType.Name;
+
+                using (var stream = File.Create($"{pathMail}\\{fileName}"))
+                {
+                    if (attachment is MessagePart)
+                    {
+                        var rfc822 = (MessagePart)attachment;
+
+                        rfc822.Message.WriteTo(stream);
+                    }
+                    else
+                    {
+                        var part = (MimePart)attachment;
+
+                        part.Content.DecodeTo(stream);
+                    }
+                }
             }
         }
 

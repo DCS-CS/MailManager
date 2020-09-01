@@ -19,7 +19,7 @@
         private readonly FlowLayoutPanel pnlAttachments = new FlowLayoutPanel();
         private bool maxMin = true;
         private readonly Imap imap;
-        private readonly MimeMessage message;
+        public readonly MimeMessage message;
 
         public MailObject(Imap imap, MimeMessage message)
         {
@@ -210,7 +210,22 @@
                             attachment.Click += new EventHandler(DownloadAttachment);
                             pnlAttachments.Controls.Add(attachment);
                         }
-                    }   
+                    }
+                }
+                else
+                {
+                    foreach (var a in message.BodyParts)
+                    {
+                        if (a.IsAttachment)
+                        {
+                            pnlAttachments.Visible = true;
+                            pnlAttachments.Controls.Add(new Button
+                            {
+                                Text = a.ContentId,
+                                AutoSize = true
+                            });
+                        }
+                    }
                 }
             }
             else

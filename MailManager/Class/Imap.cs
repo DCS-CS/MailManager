@@ -47,7 +47,7 @@
                             {
                                 int character = header.Value.IndexOf("<");
                                 string from = null;
-                                if(character == 0)
+                                if (character == 0)
                                 {
                                     from = header.Value.Substring(0);
                                 }
@@ -82,7 +82,7 @@
             {
                 var htmlPart = body.HtmlBody;
 
-                if(htmlPart == null)
+                if (htmlPart == null)
                 {
                     htmlPart = body.TextBody;
                 }
@@ -122,7 +122,7 @@
             {
                 var fileName = attachment.ContentDisposition?.FileName ?? attachment.ContentType.Name;
 
-                using (var stream = File.Create(path + "\\" + fileName))
+                using (var stream = File.Create($"{path}\\{fileName}"))
                 {
                     if (attachment is MessagePart)
                     {

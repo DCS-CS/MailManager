@@ -80,12 +80,10 @@ namespace MailManager.Components
         {
             if (CbProtocol.SelectedItem.Equals("IMAP"))
             {
-                TxtHostname.Text = "imap.";
                 TxtPort.Text = "993";
             }
             else
             {
-                TxtHostname.Text = "pop.";
                 TxtPort.Text = "995";
             }
         }

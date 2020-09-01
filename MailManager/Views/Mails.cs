@@ -1,15 +1,17 @@
-﻿namespace MailManager
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
+﻿using SelectPdf;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
+namespace MailManager
+{
     public partial class Mails : Form
     {
         private readonly MailAccount mails;
-
         private delegate void DelegatePanel(Control panel);
         private readonly Imap imp;
         private readonly Pop3 pop;
@@ -22,9 +24,68 @@
             pop = new Pop3();
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private async void btnSave_Click(object sender, EventArgs e)
         {
+            FolderBrowserDialog folder = new FolderBrowserDialog();
+            string path = null;
+
+            if (folder.ShowDialog() == DialogResult.OK)
+            {
+                path = folder.SelectedPath;
+                folder.Dispose();
+            }
+            else
+            {
+                folder.Dispose();
+                return;
+            }
+
             //TODO: Guardar los correos en un pdf
+            List<MailObject> mailsList = pnlMailsView.Controls.OfType<MailObject>().ToList();
+            List<MailObject> ids = new List<MailObject>();
+
+            foreach (MailObject mail in mailsList)
+            {
+                if (mail.ChkSelect.Checked)
+                {
+                    ids.Add(mail);
+                }
+            }
+            
+            await Task.Run(() =>
+            {
+                foreach (MailObject mail in ids)
+                {
+                    string pathMail = $"{path}\\{mail.Subject.Text}";
+                    Directory.CreateDirectory(pathMail);
+                    FileStream file = new FileStream($"{pathMail}\\body.pdf", FileMode.OpenOrCreate, FileAccess.Write);
+
+                    HtmlToPdf converter = new HtmlToPdf();
+                    PdfDocument doc = null;
+                    if (mails.Protocol.Equals("IMAP"))
+                    {
+                        doc = converter.ConvertHtmlString(imp.GetBodyMail(mail.UniqueId));
+                    }
+                    else
+                    {
+                        doc = converter.ConvertHtmlString(mail.message.HtmlBody);
+                    }    
+                    doc.Save(file);
+                    file.Close();
+                    doc.Close();
+
+                    if (mails.Protocol.Equals("IMAP"))
+                    {
+                        imp.DownLoadAttachment(mail.UniqueId, pathMail);
+                    }
+                    else
+                    {
+                        pop.DownloadAttachment(mail.message, pathMail);
+                    }
+                }
+            }, CancellationToken.None);
+
+            MessageBox.Show("Correo guardado", "Exito");
         }
 
         private void Mails_Load(object sender, EventArgs e)
@@ -48,7 +109,7 @@
                 pop.Connect(mails.Hostname, mails.Puerto, mails.SSL, mails.Mail, mails.Password);
                 pop.GetEmails(this);
             }
-            
+
         }
 
         private async void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
