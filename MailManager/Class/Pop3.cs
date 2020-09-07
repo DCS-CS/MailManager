@@ -39,7 +39,15 @@
                             if (header.Value.Contains("<"))
                             {
                                 int character = header.Value.IndexOf("<");
-                                string from = header.Value.Substring(0, character - 1);
+                                string from = null;
+                                if (character == 0)
+                                {
+                                    from = header.Value.Substring(0);
+                                }
+                                else
+                                {
+                                    from = header.Value.Substring(0, character - 1);
+                                }
                                 mailObject.From.Text = from;
                             }
                         }

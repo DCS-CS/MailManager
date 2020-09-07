@@ -33,6 +33,7 @@
             this.pnlMailsView = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.chkSelectAll = new System.Windows.Forms.CheckBox();
+            this.btnSaveZip = new System.Windows.Forms.Button();
             this.pnlMailsView.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,12 +90,24 @@
             this.chkSelectAll.UseVisualStyleBackColor = true;
             this.chkSelectAll.CheckedChanged += new System.EventHandler(this.chkSelectAll_CheckedChanged);
             // 
+            // btnSaveZip
+            // 
+            this.btnSaveZip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveZip.Location = new System.Drawing.Point(1227, 11);
+            this.btnSaveZip.Name = "btnSaveZip";
+            this.btnSaveZip.Size = new System.Drawing.Size(127, 32);
+            this.btnSaveZip.TabIndex = 4;
+            this.btnSaveZip.Text = "Guardar en .Zip";
+            this.btnSaveZip.UseVisualStyleBackColor = true;
+            this.btnSaveZip.Click += new System.EventHandler(this.btnSaveZip_Click);
+            // 
             // Mails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1500, 550);
+            this.Controls.Add(this.btnSaveZip);
             this.Controls.Add(this.chkSelectAll);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.treeView1);
@@ -116,5 +129,6 @@
         private System.Windows.Forms.Panel pnlMailsView;
         private System.Windows.Forms.CheckBox chkSelectAll;
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Button btnSaveZip;
     }
 }

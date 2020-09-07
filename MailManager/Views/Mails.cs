@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,8 +21,15 @@ namespace MailManager
         {
             InitializeComponent();
             mails = mail;
-            imp = new Imap();
-            pop = new Pop3();
+            if (mails.Protocol.Equals("IMAP"))
+            {
+                imp = new Imap();
+            }
+            else
+            {
+                pop = new Pop3();
+                lblTitle.Visible = false;
+            }
         }
 
         private async void btnSave_Click(object sender, EventArgs e)
@@ -40,20 +48,19 @@ namespace MailManager
                 return;
             }
 
-            //TODO: Guardar los correos en un pdf
-            List<MailObject> mailsList = pnlMailsView.Controls.OfType<MailObject>().ToList();
-            List<MailObject> ids = new List<MailObject>();
-
-            foreach (MailObject mail in mailsList)
-            {
-                if (mail.ChkSelect.Checked)
-                {
-                    ids.Add(mail);
-                }
-            }
-            
             await Task.Run(() =>
             {
+                List<MailObject> mailsList = pnlMailsView.Controls.OfType<MailObject>().ToList();
+                List<MailObject> ids = new List<MailObject>();
+
+                foreach (MailObject mail in mailsList)
+                {
+                    if (mail.ChkSelect.Checked)
+                    {
+                        ids.Add(mail);
+                    }
+                }
+
                 foreach (MailObject mail in ids)
                 {
                     string pathMail = $"{path}\\{mail.Subject.Text}";
@@ -69,7 +76,7 @@ namespace MailManager
                     else
                     {
                         doc = converter.ConvertHtmlString(mail.message.HtmlBody);
-                    }    
+                    }
                     doc.Save(file);
                     file.Close();
                     doc.Close();
@@ -101,7 +108,17 @@ namespace MailManager
                 {
                     port = 993;
                 }
-                imp.Connect(GetHostName(mails.Mail), port, mails.SSL, mails.Mail, mails.Password);
+                string hostname;
+                if (!string.IsNullOrEmpty(mails.Hostname))
+                {
+                    hostname = mails.Hostname;
+                }
+                else
+                {
+                    hostname = GetHostName(mails.Mail);
+                }
+
+                imp.Connect(hostname, port, mails.SSL, mails.Mail, mails.Password);
                 imp.Folders(treeView1);
             }
             else
@@ -109,7 +126,6 @@ namespace MailManager
                 pop.Connect(mails.Hostname, mails.Puerto, mails.SSL, mails.Mail, mails.Password);
                 pop.GetEmails(this);
             }
-
         }
 
         private async void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -178,11 +194,76 @@ namespace MailManager
                 { "hotmail.es", "imap-mail.outlook.com" },
                 { "outlook.com", "imap-mail.outlook.com" },
                 { "yahoo.com", "imap.mail.yahoo.com" }
-
             };
 
             return hostNameList[host];
         }
 
+        private async void btnSaveZip_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folder = new FolderBrowserDialog();
+            string path = null;
+
+            if (folder.ShowDialog() == DialogResult.OK)
+            {
+                path = folder.SelectedPath;
+                folder.Dispose();
+            }
+            else
+            {
+                folder.Dispose();
+                return;
+            }
+
+            string pathTemp = $"{Path.GetTempPath()}{treeView1.SelectedNode.Text}";
+
+            await Task.Run(() => 
+            {
+                List<MailObject> list = pnlMailsView.Controls.OfType<MailObject>().ToList();
+                List<MailObject> ids = new List<MailObject>();
+
+                foreach (MailObject mail in list)
+                {
+                    if (mail.ChkSelect.Checked)
+                    {
+                        ids.Add(mail);
+                    }
+                }
+
+                Directory.CreateDirectory(pathTemp);
+                foreach (var mail in ids)
+                {
+                    string pathMail = $"{pathTemp}\\{mail.Subject.Text}";
+                    Directory.CreateDirectory(pathMail);
+                    FileStream file = new FileStream($"{pathMail}\\body.pdf", FileMode.OpenOrCreate, FileAccess.Write);
+
+                    HtmlToPdf converter = new HtmlToPdf();
+                    PdfDocument doc = null;
+                    if (mails.Protocol.Equals("IMAP"))
+                    {
+                        doc = converter.ConvertHtmlString(imp.GetBodyMail(mail.UniqueId));
+                    }
+                    else
+                    {
+                        doc = converter.ConvertHtmlString(mail.message.HtmlBody);
+                    }
+                    doc.Save(file);
+                    file.Close();
+                    doc.Close();
+
+                    if (mails.Protocol.Equals("IMAP"))
+                    {
+                        imp.DownLoadAttachment(mail.UniqueId, pathMail);
+                    }
+                    else
+                    {
+                        pop.DownloadAttachment(mail.message, pathMail);
+                    }
+                }
+
+                ZipFile.CreateFromDirectory(pathTemp, $"{path}Correos.zip");
+                Directory.Delete(pathTemp, true);
+            });
+        }
     }
 }

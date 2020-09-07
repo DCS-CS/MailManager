@@ -221,7 +221,7 @@
                             pnlAttachments.Visible = true;
                             pnlAttachments.Controls.Add(new Button
                             {
-                                Text = a.ContentId,
+                                Text = a.Headers[0].Value,
                                 AutoSize = true
                             });
                         }
