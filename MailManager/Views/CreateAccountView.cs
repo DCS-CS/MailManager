@@ -5,6 +5,7 @@ using MailManager.Class;
 using MailManager.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,66 +13,47 @@ namespace MailManager
 {
     public partial class CreateAccountView : Form
     {
-        private readonly List<MailsCreatePanel> panels;
-        private readonly List<AdvancedMailsPanel> panelsAdvanced;
         private readonly MainView view;
         private bool advancedOption = false;
 
+        // Constructor de la clase en el cuál se inicializa los componentes.
         public CreateAccountView(MainView mainView)
         {
             InitializeComponent();
 
             view = mainView;
-            panels = new List<MailsCreatePanel>();
-            panelsAdvanced = new List<AdvancedMailsPanel>();
 
-            panels.Add(new MailsCreatePanel());
-            pnlAccountMails.Controls.Add(panels[panels.Count - 1]);
+            pnlAccountMails.Controls.Add(new MailsCreatePanel());
         }
-
-        private void btnAddPanel_Click(object sender, EventArgs e)
+        // Evento que añade un control a pnlAccountMails.
+        private void BtnAddPanel_Click(object sender, EventArgs e)
         {
             if (!advancedOption)
             {
-                panels.Add(new MailsCreatePanel());
-                pnlAccountMails.Controls.Add(panels[panels.Count - 1]);
+                pnlAccountMails.Controls.Add(new MailsCreatePanel());
             }
             else
             {
-                panelsAdvanced.Add(new AdvancedMailsPanel());
-                pnlAccountMails.Controls.Add(panelsAdvanced[panelsAdvanced.Count - 1]);
+                pnlAccountMails.Controls.Add(new AdvancedMailsPanel());
             }
 
         }
-
-        private void btnRemovePanel_Click(object sender, EventArgs e)
+        // Evento que elimina un control de pnlAccountMails.
+        private void BtnRemovePanel_Click(object sender, EventArgs e)
         {
-            if (!advancedOption)
+            if (pnlAccountMails.Controls.Count > 1)
             {
-                if (panels.Count > 1)
-                {
-                    pnlAccountMails.Controls.RemoveAt(panels.Count - 1);
-                    panels.RemoveAt(panels.Count - 1);
-                }
+                pnlAccountMails.Controls.RemoveAt(pnlAccountMails.Controls.Count - 1);
             }
-            else
-            {
-                if (panelsAdvanced.Count > 1)
-                {
-                    pnlAccountMails.Controls.RemoveAt(panelsAdvanced.Count - 1);
-                    panelsAdvanced.RemoveAt(panelsAdvanced.Count - 1);
-                }
-            }
-
         }
-
+        // Evento para volver a la ventana de login
         private void BtnBack_Click(object sender, EventArgs e)
         {
             view.ChangeView(new Login(view));
             Dispose();
             Close();
         }
-
+        // Evento que crea el usuario y guarda los correos en firebase
         private async void BtnCreateAccount_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(txtName.Text) && !string.IsNullOrEmpty(txtPassword.Text)
@@ -92,7 +74,7 @@ namespace MailManager
                 catch (FirebaseAuthException)
                 {
                     MessageBox.Show(
-                        "Este correo ya esta registrado",
+                        "Error en la creación del usuario",
                         "Error");
                     return;
                 }
@@ -102,8 +84,15 @@ namespace MailManager
                 
                 if (!advancedOption)
                 {
-                    foreach (MailsCreatePanel a in panels)
+                    foreach (MailsCreatePanel a in pnlAccountMails.Controls.OfType<MailsCreatePanel>().ToList())
                     {
+                        if(string.IsNullOrEmpty(a.TxtMail.Text) || string.IsNullOrEmpty(a.TxtPasswordMail.Text))
+                        {
+                            MessageBox.Show(
+                                "Debe registrar un correo con su contraseña",
+                                "Error");
+                            return;
+                        }
                         mails.Add(new MailAccount(
                             AES.Encrypt(a.TxtMail.Text),
                             AES.Encrypt(a.TxtPasswordMail.Text), 
@@ -115,8 +104,16 @@ namespace MailManager
                 }
                 else
                 {
-                    foreach (AdvancedMailsPanel a in panelsAdvanced)
+                    foreach (AdvancedMailsPanel a in pnlAccountMails.Controls.OfType<AdvancedMailsPanel>().ToList())
                     {
+                        if (string.IsNullOrEmpty(a.TxtMail.Text) || string.IsNullOrEmpty(a.TxtPasswordMail.Text)
+                            || string.IsNullOrEmpty(a.TxtPort.Text) || string.IsNullOrEmpty(a.TxtHostname.Text))
+                        {
+                            MessageBox.Show(
+                                "Debe registrar un correo con su contraseña, puerto y hostname",
+                                "Error");
+                            return;
+                        }
                         mails.Add(new MailAccount(
                             AES.Encrypt(a.TxtMail.Text),
                             AES.Encrypt(a.TxtPasswordMail.Text),
@@ -126,8 +123,6 @@ namespace MailManager
                             true));
                     }
                 }
-
-
                 User user = await authProvider.GetUserAsync(createUser.FirebaseToken);
                 
                 _ = await client
@@ -150,8 +145,8 @@ namespace MailManager
                     "Error");
             }
         }
-
-        private void txtPassword_Leave(object sender, EventArgs e)
+        // Evento que verifica si la contraseña introducida tiene entre 6 y 16 caracteres
+        private void TxtPassword_Leave(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(txtPassword.Text))
             {
@@ -166,8 +161,8 @@ namespace MailManager
                 }
             }
         }
-
-        private void txtVerificationMail_Leave(object sender, EventArgs e)
+        // Evento que verifica si el correo introducido tiene contiene un "@" 
+        private void TxtVerificationMail_Leave(object sender, EventArgs e)
         {
             int longitud = txtVerificationMail.Text.Length;
             int count = 0;
@@ -193,25 +188,21 @@ namespace MailManager
                 }
             }
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        // Evento para cambiar los controles de pnlAccountMails
+        private void BtnAdvancedOptions_Click(object sender, EventArgs e)
         {
             if (!advancedOption)
             {
-                btnAdvancedOptions.Text = "Opciones normales >>";
+                btnAdvancedOptions.Text = "Opciones simples >>";
                 pnlAccountMails.Controls.Clear();
-                panels.Clear();
-                panelsAdvanced.Add(new AdvancedMailsPanel());
-                pnlAccountMails.Controls.Add(panelsAdvanced[panelsAdvanced.Count - 1]);
+                pnlAccountMails.Controls.Add(new AdvancedMailsPanel());
                 advancedOption = true;
             }
             else
             {
                 btnAdvancedOptions.Text = "Opciones avanzadas >>";
                 pnlAccountMails.Controls.Clear();
-                panelsAdvanced.Clear();
-                panels.Add(new MailsCreatePanel());
-                pnlAccountMails.Controls.Add(panels[panels.Count - 1]);
+                pnlAccountMails.Controls.Add(new MailsCreatePanel());
                 advancedOption = false;
             }
         }

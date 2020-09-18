@@ -1,19 +1,37 @@
-﻿namespace MailManager
-{
-    using MailKit.Net.Pop3;
-    using MimeKit;
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
+﻿using MailKit.Net.Pop3;
+using MimeKit;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
+namespace MailManager
+{
     internal class Pop3
     {
         private readonly Pop3Client client = new Pop3Client();
 
         public void Connect(string host, int port, bool SSL, string mail, string password)
         {
-            client.Connect(host, port, SSL);
-            client.Authenticate(mail, password);
+            try
+            {
+                client.Connect(host, port, SSL);
+            }
+            catch
+            {
+                MessageBox.Show("Error con los datos de conexion con el proveedor. \nMire su configuración 'Archivo>>Configuración'" +
+                    " y cambie los datos", "Error");
+            }
+
+            try
+            {
+                client.Authenticate(mail, password);
+            }
+            catch
+            {
+                MessageBox.Show("El correo o la contraseña dados son incorrectos. \nMire su configuración 'Archivo>>Configuración'" +
+                    " y cambie los datos", "Error");
+            }
         }
 
         public async void GetEmails(Mails mails)

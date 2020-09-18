@@ -5,7 +5,6 @@ using MailManager.Class;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MailManager
@@ -19,98 +18,92 @@ namespace MailManager
             InitializeComponent();
             view = mainView;
         }
-
+        // Evento que abre la ventana para crear una cuenta.
         private void lklblNewAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             view.ChangeView(new CreateAccountView(view));
             Dispose();
             Close();
         }
-
+        /*
+         * Evento que se encarga de logear verificar los datos introducidos en las
+         * cajas de texto y si son correctos:
+         * + Se extraerán los emails guardados en firebase correspondientes a la cuenta.
+         * + Se cambiará a la ventana ManagedAccountView
+         * Si son incorrectos se mostrará a un error en pantalla.
+         */
         private async void BtnLogin_Click(object sender, EventArgs e)
         {
             FirebaseClient client = FireConfig.GetClient();
-            FirebaseAuthProvider authProvider = FireConfig.GetAuthProvider(); 
+            FirebaseAuthProvider authProvider = FireConfig.GetAuthProvider();
 
-            if (string.IsNullOrEmpty(txtUser.Text))
+            if (string.IsNullOrEmpty(txtUser.Text) || string.IsNullOrEmpty(txtPassword.Text))
             {
                 MessageBox.Show(
-                    "El usuario no debe estar vacio",
+                    "Los campos de usuario y contraseña son obligatorios",
                     "Error");
             }
             else
             {
-                if (string.IsNullOrEmpty(txtPassword.Text))
+                try
                 {
-                    MessageBox.Show(
-                        "La contraseña no debe estar vacia",
-                        "Error");
-                }
-                else
-                {
-                    try
+                    var signIn = await authProvider.SignInWithEmailAndPasswordAsync(txtUser.Text, txtPassword.Text);
+                    User user = await authProvider.GetUserAsync(signIn.FirebaseToken);
+                    if (user.IsEmailVerified)
                     {
-                        
-                        var signIn = await authProvider.SignInWithEmailAndPasswordAsync(txtUser.Text, txtPassword.Text);
-                        User user = await authProvider.GetUserAsync(signIn.FirebaseToken);
-                        if (user.IsEmailVerified)
+                        List<MailAccount> mails = null;
+
+                        var query2 = await client
+                        .Child("User Account")
+                        .Child($"{user.DisplayName} Mails")
+                        .OrderByKey()
+                        .OnceAsync<List<MailAccount>>();
+
+                        foreach (var account in query2)
                         {
-                            List<MailAccount> mails = null;
+                            mails = account.Object;
+                        }
 
-                            var query2 = await client
-                            .Child("User Account")
-                            .Child($"{user.DisplayName} Mails")
-                            .OrderByKey()
-                            .OnceAsync<List<MailAccount>>();
+                        AES.CryptoConfigure();
 
-                            foreach (var account in query2)
+                        List<MailAccount> mailsDencrypt = new List<MailAccount>();
+
+                        foreach (MailAccount account in mails)
+                        {
+                            string hostname = null;
+                            if (!string.IsNullOrEmpty(account.Hostname))
                             {
-                                mails = account.Object;
+                                hostname = AES.Dencrypt(account.Hostname);
                             }
 
-                            AES.CryptoConfigure();
-
-                            List<MailAccount> mailsDencrypt = new List<MailAccount>();
-
-                            foreach (MailAccount account in mails)
-                            {
-                                string hostname = null;
-                                if (!string.IsNullOrEmpty(account.Hostname))
-                                {
-                                    hostname = AES.Dencrypt(account.Hostname);
-                                }
-                                
-                                mailsDencrypt.Add(new MailAccount(
-                                    AES.Dencrypt(account.Mail), 
-                                    AES.Dencrypt(account.Password), 
-                                    hostname, 
-                                    account.Puerto,
-                                    AES.Dencrypt(account.Protocol),
-                                    account.SSL));
-                            }
-
-                            view.ChangeView(new ManagedAccountView(mailsDencrypt));
-                            view.Location = new Point(200, 100);
-                            
-                            MainView.SignIn = signIn;
-                            MainView.UserApp = user;
-                            MainView.AuthProvider = authProvider;
-                            
+                            mailsDencrypt.Add(new MailAccount(
+                                AES.Dencrypt(account.Mail),
+                                AES.Dencrypt(account.Password),
+                                hostname,
+                                account.Puerto,
+                                AES.Dencrypt(account.Protocol),
+                                account.SSL));
                         }
-                        else
-                        {
-                            MessageBox.Show(
-                                "Verifica la cuenta",
-                                "Error");
-                        }
+
+                        view.ChangeView(new ManagedAccountView(mailsDencrypt));
+                        view.Location = new Point(200, 100);
+
+                        MainView.SignIn = signIn;
+                        MainView.UserApp = user;
+                        MainView.AuthProvider = authProvider;
                     }
-                    catch (FirebaseAuthException)
+                    else
                     {
                         MessageBox.Show(
-                            "Los datos son incorrectos",
+                            "Verifica la cuenta",
                             "Error");
                     }
-                    
+                }
+                catch (FirebaseAuthException)
+                {
+                    MessageBox.Show(
+                        "Los datos son incorrectos",
+                        "Error");
                 }
             }
         }

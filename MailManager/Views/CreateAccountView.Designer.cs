@@ -78,7 +78,7 @@
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(202, 22);
             this.txtPassword.TabIndex = 1;
-            this.txtPassword.Leave += new System.EventHandler(this.txtPassword_Leave);
+            this.txtPassword.Leave += new System.EventHandler(this.TxtPassword_Leave);
             // 
             // btnAddPanel
             // 
@@ -90,7 +90,7 @@
             this.btnAddPanel.TabIndex = 3;
             this.btnAddPanel.Text = "Añadir";
             this.btnAddPanel.UseVisualStyleBackColor = false;
-            this.btnAddPanel.Click += new System.EventHandler(this.btnAddPanel_Click);
+            this.btnAddPanel.Click += new System.EventHandler(this.BtnAddPanel_Click);
             // 
             // btnRemovePanel
             // 
@@ -101,7 +101,7 @@
             this.btnRemovePanel.TabIndex = 4;
             this.btnRemovePanel.Text = "Quitar";
             this.btnRemovePanel.UseVisualStyleBackColor = false;
-            this.btnRemovePanel.Click += new System.EventHandler(this.btnRemovePanel_Click);
+            this.btnRemovePanel.Click += new System.EventHandler(this.BtnRemovePanel_Click);
             // 
             // pnlAccountMails
             // 
@@ -146,7 +146,7 @@
             this.btnAdvancedOptions.TabIndex = 5;
             this.btnAdvancedOptions.Text = "Opciones avanzadas >>";
             this.btnAdvancedOptions.UseVisualStyleBackColor = true;
-            this.btnAdvancedOptions.Click += new System.EventHandler(this.button1_Click);
+            this.btnAdvancedOptions.Click += new System.EventHandler(this.BtnAdvancedOptions_Click);
             // 
             // lblVerificationMail
             // 
@@ -163,7 +163,7 @@
             this.txtVerificationMail.Name = "txtVerificationMail";
             this.txtVerificationMail.Size = new System.Drawing.Size(263, 22);
             this.txtVerificationMail.TabIndex = 0;
-            this.txtVerificationMail.Leave += new System.EventHandler(this.txtVerificationMail_Leave);
+            this.txtVerificationMail.Leave += new System.EventHandler(this.TxtVerificationMail_Leave);
             // 
             // lblManagerMail
             // 

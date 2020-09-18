@@ -1,12 +1,10 @@
-﻿using Firebase.Auth;
-using Firebase.Database;
+﻿using Firebase.Database;
 using Firebase.Database.Query;
 using MailManager.Class;
 using MailManager.Components;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MailManager.Views
@@ -16,11 +14,7 @@ namespace MailManager.Views
         private int posX = 0;
         private int posY = 0;
 
-        private readonly FirebaseAuthLink signIn;
-        private readonly User userApp;
-        private readonly FirebaseAuthProvider authProvider;
-
-        public ProfileView(FirebaseAuthLink signIn, User userApp, FirebaseAuthProvider authProvider)
+        public ProfileView()
         {
             InitializeComponent();
 
@@ -32,10 +26,6 @@ namespace MailManager.Views
             {
                 pnlTitle.MouseMove += new MouseEventHandler(pnlTitle_MouseMove);
             }
-
-            this.signIn = signIn;
-            this.userApp = userApp;
-            this.authProvider = authProvider;
         }
 
         private void IconClose_Click(object sender, EventArgs e)
@@ -72,15 +62,15 @@ namespace MailManager.Views
         private async void ProfileView_Load(object sender, EventArgs e)
         {
             FirebaseClient client = FireConfig.GetClient();
-            
-            txtVerificationMail.Text = userApp.Email;
-            txtName.Text = userApp.DisplayName;
+
+            txtVerificationMail.Text = MainView.UserApp.Email;
+            txtName.Text = MainView.UserApp.DisplayName;
 
             List<MailAccount> mails = null;
 
             var query2 = await client
             .Child("User Account")
-            .Child($"{userApp.DisplayName} Mails")
+            .Child($"{MainView.UserApp.DisplayName} Mails")
             .OrderByKey()
             .OnceAsync<List<MailAccount>>();
 
@@ -98,9 +88,11 @@ namespace MailManager.Views
                 mailsPanel.TxtPasswordMail.Text = AES.Dencrypt(account.Password);
                 mailsPanel.CbProtocol.SelectedItem = AES.Dencrypt(account.Protocol);
                 mailsPanel.TxtPort.Text = Convert.ToString(account.Puerto);
-                
-                if(!string.IsNullOrEmpty(account.Hostname))
-                mailsPanel.TxtHostname.Text = AES.Dencrypt(account.Hostname);
+
+                if (!string.IsNullOrEmpty(account.Hostname))
+                {
+                    mailsPanel.TxtHostname.Text = AES.Dencrypt(account.Hostname);
+                }
 
                 pnlMails.Controls.Add(mailsPanel);
             }
@@ -116,7 +108,7 @@ namespace MailManager.Views
         {
             if (!string.IsNullOrEmpty(txtNewPassword.Text))
             {
-                await authProvider.ChangeUserPassword(signIn.FirebaseToken, txtNewPassword.Text);
+                await MainView.AuthProvider.ChangeUserPassword(MainView.SignIn.FirebaseToken, txtNewPassword.Text);
                 MessageBox.Show(
                     "Contraseña cambiada",
                     "Exito");
@@ -126,11 +118,13 @@ namespace MailManager.Views
         private async void btnSaveChanges_Click(object sender, EventArgs e)
         {
             List<MailAccount> mails = new List<MailAccount>();
-            foreach(AdvancedMailsPanel a in pnlMails.Controls)
+            foreach (AdvancedMailsPanel a in pnlMails.Controls)
             {
                 string hostname = null;
                 if (!string.IsNullOrEmpty(a.TxtHostname.Text))
+                {
                     hostname = AES.Encrypt(a.TxtHostname.Text);
+                }
 
                 mails.Add(new MailAccount(
                     AES.Encrypt(a.TxtMail.Text),
@@ -146,12 +140,12 @@ namespace MailManager.Views
 
             await client
                 .Child("User Account")
-                .Child($"{userApp.DisplayName} Mails")
+                .Child($"{MainView.UserApp.DisplayName} Mails")
                 .DeleteAsync();
 
             await client
                 .Child("User Account")
-                .Child($"{userApp.DisplayName} Mails")
+                .Child($"{MainView.UserApp.DisplayName} Mails")
                 .PostAsync(mails);
 
             MessageBox.Show(

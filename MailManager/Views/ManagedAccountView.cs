@@ -8,7 +8,11 @@
     public partial class ManagedAccountView : Form
     {
         private readonly List<MailAccount> mails;
-
+        /* 
+         * Ventana que contiene un TabControl en el cuál se 
+         * mostrarán las diferentes cuentas de correo que 
+         * tenga el usuario registradas en la aplicación.
+         */
         public ManagedAccountView(List<MailAccount> mailsDencrypt)
         {
             InitializeComponent();

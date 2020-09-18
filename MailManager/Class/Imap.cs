@@ -1,23 +1,40 @@
-﻿namespace MailManager
-{
-    using MailKit;
-    using MailKit.Net.Imap;
-    using MailKit.Search;
-    using MimeKit;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using System.Windows.Forms;
+﻿using MailKit;
+using MailKit.Net.Imap;
+using MailKit.Search;
+using MimeKit;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
+namespace MailManager
+{
     internal class Imap
     {
         private readonly ImapClient client = new ImapClient();
         private IMailFolder box;
         public void Connect(string host, int port, bool SSL, string mail, string password)
         {
-            client.Connect(host, port, SSL);
-            client.Authenticate(mail, password);
+            try
+            {
+                client.Connect(host, port, SSL);
+            }
+            catch
+            {
+                MessageBox.Show("Error con los datos de conexion con el proveedor. \nMire su configuración 'Archivo>>Configuración'" +
+                    " y cambie los datos", "Error");
+            }
+
+            try
+            {
+                client.Authenticate(mail, password);
+            }
+            catch
+            {
+                MessageBox.Show("El correo o la contraseña dados son incorrectos. \nMire su configuración 'Archivo>>Configuración'" +
+                    " y cambie los datos", "Error");
+            }
         }
 
         public async void GetEmails(string folder, Mails mails)
@@ -166,9 +183,7 @@
                 {
                     tree.Nodes.Add(folder.Name);
                 }
-
             }
-
         }
 
         public void Disconnect()

@@ -261,9 +261,11 @@ namespace MailManager
                     }
                 }
 
-                ZipFile.CreateFromDirectory(pathTemp, $"{path}Correos.zip");
+                ZipFile.CreateFromDirectory(pathTemp, $"{path}\\Correos.zip");
                 Directory.Delete(pathTemp, true);
             });
+
+            MessageBox.Show("Archivo .Zip creado", "Exito");
         }
     }
 }
