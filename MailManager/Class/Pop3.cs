@@ -10,7 +10,7 @@ namespace MailManager
     internal class Pop3
     {
         private readonly Pop3Client client = new Pop3Client();
-
+        // Método para conectarse al servidor y luego a la cuenta de correo.
         public void Connect(string host, int port, bool SSL, string mail, string password)
         {
             try
@@ -33,7 +33,7 @@ namespace MailManager
                     " y cambie los datos", "Error");
             }
         }
-
+        // Método para obtener y mostrar todos los correos de la cuenta.
         public async void GetEmails(Mails mails)
         {
             for (int i = 0; i < client.Count; i++)
@@ -80,7 +80,7 @@ namespace MailManager
                 }, CancellationToken.None);
             }
         }
-
+        // Método para descargar los archivos adjuntos del correo.
         public void DownloadAttachment(MimeMessage message, string pathMail)
         {
             foreach (var attachment in message.Attachments)
@@ -104,7 +104,7 @@ namespace MailManager
                 }
             }
         }
-
+        // Método para desconectar.
         public void Disconnect()
         {
             if (client.IsConnected)

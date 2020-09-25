@@ -8,7 +8,7 @@
     internal static class AES
     {
         private static readonly AesManaged myaes = new AesManaged();
-
+        // Constructor el cual configura la variable myaes.
         public static void CryptoConfigure()
         {
             myaes.Padding = PaddingMode.PKCS7;
@@ -55,7 +55,7 @@
                 myaes.IV = IV;
             }
         }
-
+        // Método para encriptar AES.
         public static string Encrypt(string text)
         {
             if (text == null || text.Length <= 0)
@@ -70,7 +70,7 @@
 
             return Convert.ToBase64String(encryptedValue);
         }
-
+        // Método para desencriptar AES.
         public static string Dencrypt(string cipher)
         {
             if (cipher.Equals(string.Empty) || cipher.Length <= 0)

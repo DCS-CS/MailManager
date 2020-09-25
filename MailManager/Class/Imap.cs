@@ -14,6 +14,7 @@ namespace MailManager
     {
         private readonly ImapClient client = new ImapClient();
         private IMailFolder box;
+        // Constructor para iniciar conexion con el servidor y cuenta indicados.
         public void Connect(string host, int port, bool SSL, string mail, string password)
         {
             try
@@ -36,7 +37,7 @@ namespace MailManager
                     " y cambie los datos", "Error");
             }
         }
-
+        // Método para obtener los correos de la cuenta.
         public async void GetEmails(string folder, Mails mails)
         {
             box = GetFolderEmails(folder);
@@ -88,7 +89,7 @@ namespace MailManager
                 }, CancellationToken.None);
             }
         }
-
+        // Método para obtener el texto del mensaje con formato html.
         public string GetBodyMail(UniqueId uniqueId)
         {
             var bodyStructure = box.Fetch(new List<UniqueId> { uniqueId }, MessageSummaryItems.BodyStructure);
@@ -109,7 +110,7 @@ namespace MailManager
 
             return htmlString.Text;
         }
-
+        // Método para obtener una lista de botones correspondientes a los archivos adjuntos del correo. 
         public List<Button> GetAttachmentsMail(UniqueId uniqueId)
         {
             var bodyStructure = box.Fetch(new List<UniqueId> { uniqueId }, MessageSummaryItems.BodyStructure);
@@ -130,7 +131,7 @@ namespace MailManager
             }
             return attachmentsList;
         }
-
+        // Método para descargar los archivos adjuntos.
         public void DownLoadAttachment(UniqueId uniqueId, string path)
         {
             MimeMessage message = box.GetMessage(uniqueId);
@@ -157,7 +158,7 @@ namespace MailManager
             }
 
         }
-
+        // Método para obtener la carpeta seleccionada en el TreeView.
         private IMailFolder GetFolderEmails(string folder)
         {
             var list = client.GetFolders(client.PersonalNamespaces[0]);
@@ -172,7 +173,7 @@ namespace MailManager
             }
             return box;
         }
-
+        // Método para obtener todos las carpetas de la cuenta.
         public void Folders(TreeView tree)
         {
             var list = client.GetFolders(client.PersonalNamespaces[0]);

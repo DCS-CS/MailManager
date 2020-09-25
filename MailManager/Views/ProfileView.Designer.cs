@@ -40,10 +40,10 @@
             this.btnSaveChanges = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.pnlContainer = new System.Windows.Forms.Panel();
-            this.lblPnlMails = new System.Windows.Forms.Label();
-            this.lblNewPassword = new System.Windows.Forms.Label();
-            this.txtNewPassword = new System.Windows.Forms.TextBox();
             this.btnAddMail = new System.Windows.Forms.Button();
+            this.txtNewPassword = new System.Windows.Forms.TextBox();
+            this.lblNewPassword = new System.Windows.Forms.Label();
+            this.lblPnlMails = new System.Windows.Forms.Label();
             this.pnlTitle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconClose)).BeginInit();
             this.pnlContainer.SuspendLayout();
@@ -92,6 +92,7 @@
             // 
             // txtVerificationMail
             // 
+            this.txtVerificationMail.Enabled = false;
             this.txtVerificationMail.Location = new System.Drawing.Point(32, 38);
             this.txtVerificationMail.Name = "txtVerificationMail";
             this.txtVerificationMail.Size = new System.Drawing.Size(263, 22);
@@ -108,6 +109,7 @@
             // 
             // txtName
             // 
+            this.txtName.Enabled = false;
             this.txtName.Location = new System.Drawing.Point(322, 38);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(193, 22);
@@ -173,14 +175,22 @@
             this.pnlContainer.Size = new System.Drawing.Size(963, 417);
             this.pnlContainer.TabIndex = 21;
             // 
-            // lblPnlMails
+            // btnAddMail
             // 
-            this.lblPnlMails.AutoSize = true;
-            this.lblPnlMails.Location = new System.Drawing.Point(11, 86);
-            this.lblPnlMails.Name = "lblPnlMails";
-            this.lblPnlMails.Size = new System.Drawing.Size(66, 17);
-            this.lblPnlMails.TabIndex = 21;
-            this.lblPnlMails.Text = "Correos: ";
+            this.btnAddMail.Location = new System.Drawing.Point(756, 82);
+            this.btnAddMail.Name = "btnAddMail";
+            this.btnAddMail.Size = new System.Drawing.Size(157, 24);
+            this.btnAddMail.TabIndex = 24;
+            this.btnAddMail.Text = "Añadir correo";
+            this.btnAddMail.UseVisualStyleBackColor = true;
+            this.btnAddMail.Click += new System.EventHandler(this.btnAddMail_Click);
+            // 
+            // txtNewPassword
+            // 
+            this.txtNewPassword.Location = new System.Drawing.Point(549, 38);
+            this.txtNewPassword.Name = "txtNewPassword";
+            this.txtNewPassword.Size = new System.Drawing.Size(177, 22);
+            this.txtNewPassword.TabIndex = 23;
             // 
             // lblNewPassword
             // 
@@ -191,22 +201,14 @@
             this.lblNewPassword.TabIndex = 22;
             this.lblNewPassword.Text = "Nueva contraseña:";
             // 
-            // txtNewPassword
+            // lblPnlMails
             // 
-            this.txtNewPassword.Location = new System.Drawing.Point(549, 38);
-            this.txtNewPassword.Name = "txtNewPassword";
-            this.txtNewPassword.Size = new System.Drawing.Size(177, 22);
-            this.txtNewPassword.TabIndex = 23;
-            // 
-            // btnAddMail
-            // 
-            this.btnAddMail.Location = new System.Drawing.Point(756, 82);
-            this.btnAddMail.Name = "btnAddMail";
-            this.btnAddMail.Size = new System.Drawing.Size(157, 24);
-            this.btnAddMail.TabIndex = 24;
-            this.btnAddMail.Text = "Añadir correo";
-            this.btnAddMail.UseVisualStyleBackColor = true;
-            this.btnAddMail.Click += new System.EventHandler(this.btnAddMail_Click);
+            this.lblPnlMails.AutoSize = true;
+            this.lblPnlMails.Location = new System.Drawing.Point(11, 86);
+            this.lblPnlMails.Name = "lblPnlMails";
+            this.lblPnlMails.Size = new System.Drawing.Size(66, 17);
+            this.lblPnlMails.TabIndex = 21;
+            this.lblPnlMails.Text = "Correos: ";
             // 
             // ProfileView
             // 

@@ -1,8 +1,8 @@
-﻿namespace MailManager
-{
-    using System;
-    using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
+namespace MailManager
+{
     internal class MailsCreatePanel : Panel
     {
         public TextBox TxtPasswordMail { get; set; }
@@ -11,7 +11,8 @@
         public Label LblMail { get; set; }
 
         ErrorProvider erp;
-
+        // Constructor del componente en él se inicializa todos
+        // los componentes que lo forman.
         public MailsCreatePanel()
         {
             erp = new ErrorProvider();
@@ -66,7 +67,7 @@
             LblMail.TabIndex = 0;
             LblMail.Text = "Correo:";
         }
-
+        // Evento para comprobar el formato del correo introducido en TxtMail
         private void checkMail(object sender, EventArgs e)
         {
             

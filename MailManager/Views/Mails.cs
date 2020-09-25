@@ -17,7 +17,9 @@ namespace MailManager
         private readonly Imap imp;
         private readonly Pop3 pop;
 
-        // Constructor 
+        // Constructor de la clase Mails en él se inicializa los componentes
+        // y se inicializa los campos dependiendo del protocolo del MailAccount 
+        // que se reciba.
         public Mails(MailAccount mail)
         {
             InitializeComponent();
@@ -32,12 +34,12 @@ namespace MailManager
                 lblTitle.Visible = false;
             }
         }
-
-        private async void btnSave_Click(object sender, EventArgs e)
+        // Evento para guardar los correos seleccionados en la carpeta seleccionada.
+        private async void BtnSave_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folder = new FolderBrowserDialog();
             string path = null;
-
+            // Obtengo la carpeta en donde quiero guardar los corrreos.
             if (folder.ShowDialog() == DialogResult.OK)
             {
                 path = folder.SelectedPath;
@@ -53,7 +55,7 @@ namespace MailManager
             {
                 List<MailObject> mailsList = pnlMailsView.Controls.OfType<MailObject>().ToList();
                 List<MailObject> ids = new List<MailObject>();
-
+                // Obtengo todos los correos seleccionados y los guardo en ids.
                 foreach (MailObject mail in mailsList)
                 {
                     if (mail.ChkSelect.Checked)
@@ -65,11 +67,11 @@ namespace MailManager
                 foreach (MailObject mail in ids)
                 {
                     string pathMail = $"{path}\\{mail.Subject.Text}";
-                    Directory.CreateDirectory(pathMail);
-                    FileStream file = new FileStream($"{pathMail}\\body.pdf", FileMode.OpenOrCreate, FileAccess.Write);
+                    Directory.CreateDirectory(pathMail);// Creo una carpeta con el nombre del asunto del correo, en la direccion especificada
+                    FileStream file = new FileStream($"{pathMail}\\body.pdf", FileMode.OpenOrCreate, FileAccess.Write);// Creo el archivo PDF.
 
                     HtmlToPdf converter = new HtmlToPdf();
-                    PdfDocument doc = null;
+                    PdfDocument doc = null; // Creo el documento PDF convirtiendo el html a PDF
                     if (mails.Protocol.Equals("IMAP"))
                     {
                         doc = converter.ConvertHtmlString(imp.GetBodyMail(mail.UniqueId));
@@ -78,10 +80,10 @@ namespace MailManager
                     {
                         doc = converter.ConvertHtmlString(mail.message.HtmlBody);
                     }
-                    doc.Save(file);
-                    file.Close();
-                    doc.Close();
-
+                    doc.Save(file);// Guardo el documento en el archivo.
+                    file.Close();// Cierro el archivo.
+                    doc.Close();// Cierro el documento.
+                    //Se descargan los archivos adjuntos del correo y se guardan en la carpeta.
                     if (mails.Protocol.Equals("IMAP"))
                     {
                         imp.DownLoadAttachment(mail.UniqueId, pathMail);
@@ -95,7 +97,8 @@ namespace MailManager
 
             MessageBox.Show("Correo guardado", "Exito");
         }
-
+        // Evento para conectarse al servidor y a la cuenta de correos dependiendo del protocolo
+        // cuando se carga la ventana.
         private void Mails_Load(object sender, EventArgs e)
         {
             if (mails.Protocol.Equals("IMAP"))
@@ -128,7 +131,7 @@ namespace MailManager
                 pop.GetEmails(this);
             }
         }
-
+        // Evento para mostrar los correo cuando haces click en una de las carpetas mostradas en el TreeView.
         private async void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeView tv = sender as TreeView;
@@ -145,7 +148,7 @@ namespace MailManager
             }
             tv.Enabled = true;
         }
-
+        // Evento para que al pulsar en el check "seleccionar todo" se seleccionen todos los correos.
         private void chkSelectAll_CheckedChanged(object sender, EventArgs e)
         {
             List<MailObject> mails = pnlMailsView.Controls.OfType<MailObject>().ToList();
@@ -162,7 +165,8 @@ namespace MailManager
                 }
             }
         }
-
+        // Metodo para insertar controles en el pnlMailsView desde hilos o tareas en segundo plano
+        // utilizando el delegado.
         public void AddControl(Control panel)
         {
             if (pnlMailsView.InvokeRequired)
@@ -175,7 +179,9 @@ namespace MailManager
                 pnlMailsView.Controls.Add(panel);
             }
         }
-
+        // Metodo que te devuelve un hostname para poder conectarte al servidor de tu proveedor.
+        // Si el Hostname de tu servidor no está, debes insertarlo manualmente ya sea al crear la cuenta 
+        // utilizando las opciones avanzadas o modificando tu perfil.
         private string GetHostName(string mail)
         {
             string host = null;
@@ -199,12 +205,12 @@ namespace MailManager
 
             return hostNameList[host];
         }
-
+        // Evento para guardar los correos seleccionados en un archivo ZIP
         private async void btnSaveZip_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folder = new FolderBrowserDialog();
             string path = null;
-
+            // Obtengo la carpeta donde quiero guardar el ZIP.
             if (folder.ShowDialog() == DialogResult.OK)
             {
                 path = folder.SelectedPath;
@@ -230,9 +236,9 @@ namespace MailManager
                         ids.Add(mail);
                     }
                 }
-
+                // Creo una carpeta temporal en la carpeta de Archivos temporales.
                 Directory.CreateDirectory(pathTemp);
-                foreach (var mail in ids)
+                foreach (var mail in ids)// guardo los correos en en la carpeta temporal.
                 {
                     string pathMail = $"{pathTemp}\\{mail.Subject.Text}";
                     Directory.CreateDirectory(pathMail);
@@ -251,7 +257,7 @@ namespace MailManager
                     doc.Save(file);
                     file.Close();
                     doc.Close();
-
+                    // Guardo los archivos adjuntos en la carpeta temporal
                     if (mails.Protocol.Equals("IMAP"))
                     {
                         imp.DownLoadAttachment(mail.UniqueId, pathMail);
@@ -262,8 +268,8 @@ namespace MailManager
                     }
                 }
 
-                ZipFile.CreateFromDirectory(pathTemp, $"{path}\\Correos.zip");
-                Directory.Delete(pathTemp, true);
+                ZipFile.CreateFromDirectory(pathTemp, $"{path}\\Correos.zip");// Creo el archivo ZIP usando la carpeta temporal.
+                Directory.Delete(pathTemp, true);// Borro la carpeta temporal.
             });
 
             MessageBox.Show("Archivo .Zip creado", "Exito");

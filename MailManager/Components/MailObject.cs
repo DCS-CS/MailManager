@@ -1,11 +1,11 @@
-﻿namespace MailManager
-{
-    using MailKit;
-    using MimeKit;
-    using System;
-    using System.Collections.Generic;
-    using System.Windows.Forms;
+﻿using MailKit;
+using MimeKit;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
+namespace MailManager
+{
     internal class MailObject : Panel
     {
         public Label Subject { get; set; }
@@ -20,7 +20,7 @@
         private bool maxMin = true;
         private readonly Imap imap;
         public readonly MimeMessage message;
-
+        // Constructor que inicializa todas los controles de los que esta formado el componente.
         public MailObject(Imap imap, MimeMessage message)
         {
             this.imap = imap;
@@ -159,9 +159,8 @@
             this.ChkSelect.Size = new System.Drawing.Size(136, 21);
             this.ChkSelect.TabIndex = 8;
             this.ChkSelect.UseVisualStyleBackColor = true;
-
         }
-
+        // Evento para cambiar el tamaño del texto cuando sobrepasa el tamaño.
         private void ChangeText(object sender, EventArgs e)
         {
             int subjectLength = 60;
@@ -172,7 +171,7 @@
                 Subject.Text = text;
             }
         }
-
+        // Evento para mostrar el cuerpo del mensaje y los archivos adjuntos.
         private void ViewMail(object sender, EventArgs e)
         {
             if (maxMin)
@@ -180,7 +179,7 @@
                 pnlBody.Visible = true;
                 maxMin = false;
                 
-                WebBrowser web;
+                WebBrowser web; // Aquí obtengo el cuerpo del correo como un html y se lo añado al webBrowser.
                 if (imap != null)
                 {
                     web = new WebBrowser
@@ -199,7 +198,7 @@
                 }
                 pnlBody.Controls.Add(web);
 
-                if(imap != null)
+                if(imap != null)// Aquí muestro los archivos adjuntos que tiene el correo si es que los tiene.
                 {
                     List<Button> attachments = imap.GetAttachmentsMail(UniqueId);
                     if (attachments != null && attachments.Count > 0) 
@@ -228,7 +227,7 @@
                     }
                 }
             }
-            else
+            else // Aquí dejo de mostrar el cuerpo y los archivos adjuntos.
             {
                 pnlAttachments.Visible = false;
                 pnlBody.Visible = false;
@@ -237,7 +236,7 @@
                 pnlAttachments.Controls.Clear();
             }
         }
-
+        // Evento para descargar los archivos adjuntos.
         private void DownloadAttachment(object sender, EventArgs e)
         {
             FolderBrowserDialog folder = new FolderBrowserDialog();

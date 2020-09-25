@@ -8,7 +8,7 @@ namespace MailManager.Components
         public TextBox TxtHostname { get; set; }
         public ComboBox CbProtocol { get; set; }
         public TextBox TxtPort { get; set; }
-
+        // Constructor que inicializa todos los controles de los que esta formado el componente.
         public AdvancedMailsPanel()
         {
             TxtHostname = new TextBox();
@@ -75,7 +75,7 @@ namespace MailManager.Components
             lblProtocol.Name = "lblProtocol";
             lblProtocol.Text = "Protocolo:";
         }
-
+        // Evento para cambiar el puerto mostrado en la caja de texto cuando se selecciona un protocolo.
         private void CbProtocol_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (CbProtocol.SelectedItem.Equals("IMAP"))
@@ -87,7 +87,7 @@ namespace MailManager.Components
                 TxtPort.Text = "995";
             }
         }
-
+        // Evento para limitar los caracteres que se escriben en el TxtPort a solo Digitos
         private void TxtPort_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (Char.IsDigit(e.KeyChar))
