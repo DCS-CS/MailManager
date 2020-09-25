@@ -17,6 +17,7 @@ namespace MailManager
         private readonly Imap imp;
         private readonly Pop3 pop;
 
+        // Constructor 
         public Mails(MailAccount mail)
         {
             InitializeComponent();

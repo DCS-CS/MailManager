@@ -12,8 +12,8 @@ namespace MailManager.Class
     {
         public static FirebaseClient GetClient()
         {
-            string auth = "fHpWjVWQYzXVy4nwZpqmpvkMySYzRM9I4csjFWAt";
-            string url = "https://mailmanager-49f1c.firebaseio.com";
+            string auth = "Et3rlgfdp90t0txaEi6SqdF83blB4XUgp5amSJDH";
+            string url = "https://mailmanager-6208b.firebaseio.com/";
             return new FirebaseClient(
                     url,
                     new FirebaseOptions
@@ -24,7 +24,7 @@ namespace MailManager.Class
 
         public static FirebaseAuthProvider GetAuthProvider()
         {
-            string auth2 = "AIzaSyCX0f-fX3B1EWpUtGWuF-WEzebQihg3H-E";
+            string auth2 = "AIzaSyAfAxpnCMvIbffsQJEcpt0LAZa2K5HlzE4";
             return new FirebaseAuthProvider(new FirebaseConfig(auth2));
         }
     }
