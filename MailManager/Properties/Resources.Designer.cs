@@ -63,9 +63,9 @@ namespace MailManager.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap doc4 {
+        internal static System.Drawing.Bitmap Icon_Mail_Manager {
             get {
-                object obj = ResourceManager.GetObject("doc4", resourceCulture);
+                object obj = ResourceManager.GetObject("Icon Mail Manager", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

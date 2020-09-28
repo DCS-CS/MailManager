@@ -114,7 +114,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBox1.Image = global::MailManager.Properties.Resources.doc4;
+            this.pictureBox1.Image = global::MailManager.Properties.Resources.Icon_Mail_Manager;
             this.pictureBox1.Location = new System.Drawing.Point(67, 29);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(313, 160);

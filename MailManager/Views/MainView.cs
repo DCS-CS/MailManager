@@ -126,5 +126,10 @@ namespace MailManager
         {
             new About().ShowDialog();
         }
+
+        private void salirToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

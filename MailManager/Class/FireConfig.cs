@@ -1,14 +1,10 @@
 ﻿using Firebase.Auth;
 using Firebase.Database;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MailManager.Class
 {
-    class FireConfig
+    internal class FireConfig
     {
         // Método para autennticarte en firebase y poder manipular el base de datos.
         public static FirebaseClient GetClient()
