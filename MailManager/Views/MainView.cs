@@ -126,7 +126,7 @@ namespace MailManager
         {
             new About().ShowDialog();
         }
-
+        // Evento que cierra la aplicación.
         private void salirToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Application.Exit();

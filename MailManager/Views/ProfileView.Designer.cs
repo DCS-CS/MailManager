@@ -44,15 +44,18 @@
             this.txtNewPassword = new System.Windows.Forms.TextBox();
             this.lblNewPassword = new System.Windows.Forms.Label();
             this.lblPnlMails = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlTitle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.iconClose)).BeginInit();
             this.pnlContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlTitle
             // 
             this.pnlTitle.BackColor = System.Drawing.Color.White;
             this.pnlTitle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlTitle.Controls.Add(this.pictureBox1);
             this.pnlTitle.Controls.Add(this.label1);
             this.pnlTitle.Controls.Add(this.iconClose);
             this.pnlTitle.Dock = System.Windows.Forms.DockStyle.Top;
@@ -210,6 +213,16 @@
             this.lblPnlMails.TabIndex = 21;
             this.lblPnlMails.Text = "Correos: ";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::MailManager.Properties.Resources.Icon_Mail_Manager;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 22;
+            this.pictureBox1.TabStop = false;
+            // 
             // ProfileView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -227,6 +240,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.iconClose)).EndInit();
             this.pnlContainer.ResumeLayout(false);
             this.pnlContainer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -249,5 +263,6 @@
         private System.Windows.Forms.TextBox txtNewPassword;
         private System.Windows.Forms.Label lblNewPassword;
         private System.Windows.Forms.Button btnAddMail;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
