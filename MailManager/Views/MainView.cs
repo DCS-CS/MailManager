@@ -56,7 +56,7 @@ namespace MailManager
         // la ventana del panel pnlView para que muestre la ventana de login.
         private void LoginView_Load(object sender, EventArgs e)
         {
-            ChangeView(new Login(this));
+            ChangeView(new LoginView(this));
             configuraciónToolStripMenuItem.Enabled = false;
         }
 

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlTitle = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.iconClose = new System.Windows.Forms.PictureBox();
             this.pnlMails = new System.Windows.Forms.Panel();
@@ -40,15 +41,15 @@
             this.btnSaveChanges = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.pnlContainer = new System.Windows.Forms.Panel();
+            this.btnDeleteMail = new System.Windows.Forms.Button();
             this.btnAddMail = new System.Windows.Forms.Button();
             this.txtNewPassword = new System.Windows.Forms.TextBox();
             this.lblNewPassword = new System.Windows.Forms.Label();
             this.lblPnlMails = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlTitle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconClose)).BeginInit();
             this.pnlContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlTitle
@@ -63,6 +64,16 @@
             this.pnlTitle.Name = "pnlTitle";
             this.pnlTitle.Size = new System.Drawing.Size(963, 36);
             this.pnlTitle.TabIndex = 4;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::MailManager.Properties.Resources.Icon_Mail_Manager;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 22;
+            this.pictureBox1.TabStop = false;
             // 
             // label1
             // 
@@ -145,7 +156,7 @@
             this.btnSaveChanges.TabIndex = 19;
             this.btnSaveChanges.Text = "Guardar cambios";
             this.btnSaveChanges.UseVisualStyleBackColor = true;
-            this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
+            this.btnSaveChanges.Click += new System.EventHandler(this.BtnSaveChanges_Click);
             // 
             // btnCancel
             // 
@@ -155,11 +166,12 @@
             this.btnCancel.TabIndex = 20;
             this.btnCancel.Text = "Cancelar";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // pnlContainer
             // 
             this.pnlContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlContainer.Controls.Add(this.btnDeleteMail);
             this.pnlContainer.Controls.Add(this.btnAddMail);
             this.pnlContainer.Controls.Add(this.txtNewPassword);
             this.pnlContainer.Controls.Add(this.lblNewPassword);
@@ -178,6 +190,16 @@
             this.pnlContainer.Size = new System.Drawing.Size(963, 417);
             this.pnlContainer.TabIndex = 21;
             // 
+            // btnDeleteMail
+            // 
+            this.btnDeleteMail.Location = new System.Drawing.Point(593, 82);
+            this.btnDeleteMail.Name = "btnDeleteMail";
+            this.btnDeleteMail.Size = new System.Drawing.Size(157, 24);
+            this.btnDeleteMail.TabIndex = 25;
+            this.btnDeleteMail.Text = "Borrar correo";
+            this.btnDeleteMail.UseVisualStyleBackColor = true;
+            this.btnDeleteMail.Click += new System.EventHandler(this.BtnDeleteMail_Click);
+            // 
             // btnAddMail
             // 
             this.btnAddMail.Location = new System.Drawing.Point(756, 82);
@@ -186,7 +208,7 @@
             this.btnAddMail.TabIndex = 24;
             this.btnAddMail.Text = "Añadir correo";
             this.btnAddMail.UseVisualStyleBackColor = true;
-            this.btnAddMail.Click += new System.EventHandler(this.btnAddMail_Click);
+            this.btnAddMail.Click += new System.EventHandler(this.BtnAddMail_Click);
             // 
             // txtNewPassword
             // 
@@ -213,16 +235,6 @@
             this.lblPnlMails.TabIndex = 21;
             this.lblPnlMails.Text = "Correos: ";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::MailManager.Properties.Resources.Icon_Mail_Manager;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 22;
-            this.pictureBox1.TabStop = false;
-            // 
             // ProfileView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -233,14 +245,15 @@
             this.Controls.Add(this.pnlTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ProfileView";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ProfileView";
             this.Load += new System.EventHandler(this.ProfileView_Load);
             this.pnlTitle.ResumeLayout(false);
             this.pnlTitle.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconClose)).EndInit();
             this.pnlContainer.ResumeLayout(false);
             this.pnlContainer.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -264,5 +277,6 @@
         private System.Windows.Forms.Label lblNewPassword;
         private System.Windows.Forms.Button btnAddMail;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnDeleteMail;
     }
 }

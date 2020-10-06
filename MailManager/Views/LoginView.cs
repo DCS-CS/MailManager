@@ -2,6 +2,7 @@
 using Firebase.Database;
 using Firebase.Database.Query;
 using MailManager.Class;
+using MailManager.Views;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,11 +10,11 @@ using System.Windows.Forms;
 
 namespace MailManager
 {
-    public partial class Login : Form
+    public partial class LoginView : Form
     {
         private readonly MainView view;
 
-        public Login(MainView mainView)
+        public LoginView(MainView mainView)
         {
             InitializeComponent();
             view = mainView;
@@ -106,6 +107,13 @@ namespace MailManager
                         "Error");
                 }
             }
+        }
+        // Evento para abrir la ventana de cambio de contraseña
+        private void LklblChangePassword_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            view.ChangeView(new ChangePassword(view));
+            Dispose();
+            Close();
         }
     }
 }

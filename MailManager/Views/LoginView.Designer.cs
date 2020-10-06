@@ -1,6 +1,6 @@
 ﻿namespace MailManager
 {
-    partial class Login
+    partial class LoginView
     {
         /// <summary>
         /// Required designer variable.
@@ -36,6 +36,7 @@
             this.btnLogin = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lklblChangePassword = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -44,9 +45,10 @@
             // 
             this.lklblNewAccount.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lklblNewAccount.AutoSize = true;
+            this.lklblNewAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lklblNewAccount.Location = new System.Drawing.Point(12, 416);
             this.lklblNewAccount.Name = "lklblNewAccount";
-            this.lklblNewAccount.Size = new System.Drawing.Size(92, 17);
+            this.lklblNewAccount.Size = new System.Drawing.Size(96, 18);
             this.lklblNewAccount.TabIndex = 4;
             this.lklblNewAccount.TabStop = true;
             this.lklblNewAccount.Text = "Crear Cuenta";
@@ -92,7 +94,7 @@
             // btnLogin
             // 
             this.btnLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnLogin.Location = new System.Drawing.Point(125, 332);
+            this.btnLogin.Location = new System.Drawing.Point(125, 353);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(186, 34);
             this.btnLogin.TabIndex = 3;
@@ -122,12 +124,26 @@
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
             // 
-            // Login
+            // lklblChangePassword
+            // 
+            this.lklblChangePassword.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lklblChangePassword.AutoSize = true;
+            this.lklblChangePassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lklblChangePassword.Location = new System.Drawing.Point(122, 309);
+            this.lklblChangePassword.Name = "lklblChangePassword";
+            this.lklblChangePassword.Size = new System.Drawing.Size(203, 18);
+            this.lklblChangePassword.TabIndex = 14;
+            this.lklblChangePassword.TabStop = true;
+            this.lklblChangePassword.Text = "¿Has olvidado la contraseña?";
+            this.lklblChangePassword.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LklblChangePassword_LinkClicked);
+            // 
+            // LoginView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(451, 473);
+            this.Controls.Add(this.lklblChangePassword);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lklblNewAccount);
@@ -137,7 +153,7 @@
             this.Controls.Add(this.txtUser);
             this.Controls.Add(this.btnLogin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Login";
+            this.Name = "LoginView";
             this.Text = "Login";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -156,5 +172,6 @@
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.LinkLabel lklblChangePassword;
     }
 }

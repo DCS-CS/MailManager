@@ -49,7 +49,7 @@ namespace MailManager
         // Evento para volver a la ventana de login
         private void BtnBack_Click(object sender, EventArgs e)
         {
-            view.ChangeView(new Login(view));
+            view.ChangeView(new LoginView(view));
             Dispose();
             Close();
         }
@@ -58,18 +58,18 @@ namespace MailManager
         {
             if (!string.IsNullOrEmpty(txtName.Text) && !string.IsNullOrEmpty(txtPassword.Text)
                 && !string.IsNullOrEmpty(txtVerificationMail.Text))
-            {
+            { // verifico el correo, la contraseña y el nombre introducidos para que no esten vacios
                 FirebaseClient client = FireConfig.GetClient();
                 FirebaseAuthProvider authProvider = FireConfig.GetAuthProvider();
                 FirebaseAuthLink createUser = null;
                 
-                try
+                try //Creo el usuario
                 {
                     createUser = await authProvider.CreateUserWithEmailAndPasswordAsync(
-                    txtVerificationMail.Text,
-                    txtPassword.Text,
-                    txtName.Text,
-                    true);
+                    txtVerificationMail.Text, // Correo
+                    txtPassword.Text,   // Contraseña
+                    txtName.Text,   // Nombre
+                    true);      // Booleano que sirve para enviar correo de verificación
                 }
                 catch (FirebaseAuthException)
                 {
@@ -80,9 +80,9 @@ namespace MailManager
                 }
 
                 List<MailAccount> mails = new List<MailAccount>();
-                AES.CryptoConfigure();
+                AES.CryptoConfigure(); // Configuro el lenguage de encriptacion
                 
-                if (!advancedOption)
+                if (!advancedOption) // Creo, dependiendo si se utilizan las opciones avanzadas o no, una lista de MailAccount
                 {
                     foreach (MailsCreatePanel a in pnlAccountMails.Controls.OfType<MailsCreatePanel>().ToList())
                     {
@@ -125,7 +125,7 @@ namespace MailManager
                 }
                 User user = await authProvider.GetUserAsync(createUser.FirebaseToken);
                 
-                _ = await client
+                _ = await client // query para guardar en la base de datos de firebase los correos introducidos.
                     .Child("User Account")
                     .Child($"{user.DisplayName} Mails")
                     .PostAsync(mails);
@@ -134,7 +134,7 @@ namespace MailManager
                     "Le hemos enviado un correo de verificación a su correo",
                     "Exito");
 
-                view.ChangeView(new Login(view));
+                view.ChangeView(new LoginView(view));
                 Dispose();
                 Close();
             }

@@ -31,13 +31,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlTitle = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.iconClose = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlTitle.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.iconClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconClose)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -74,6 +74,16 @@
             this.pnlTitle.Size = new System.Drawing.Size(646, 36);
             this.pnlTitle.TabIndex = 5;
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::MailManager.Properties.Resources.Icon_Mail_Manager;
+            this.pictureBox2.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 6;
+            this.pictureBox2.TabStop = false;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -96,16 +106,6 @@
             this.iconClose.TabStop = false;
             this.iconClose.Click += new System.EventHandler(this.iconClose_Click);
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::MailManager.Properties.Resources.Icon_Mail_Manager;
-            this.pictureBox2.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 6;
-            this.pictureBox2.TabStop = false;
-            // 
             // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -117,12 +117,13 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "About";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pnlTitle.ResumeLayout(false);
             this.pnlTitle.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.iconClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iconClose)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

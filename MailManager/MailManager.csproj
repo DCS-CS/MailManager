@@ -238,11 +238,20 @@
     <Compile Include="Components\MailObject.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Components\ProfileMailsPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Views\About.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChangePassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ChangePassword.Designer.cs">
+      <DependentUpon>ChangePassword.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Mails.cs">
       <SubType>Form</SubType>
@@ -288,6 +297,9 @@
     </Compile>
     <EmbeddedResource Include="Views\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ChangePassword.resx">
+      <DependentUpon>ChangePassword.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CreateAccountView.resx">
       <DependentUpon>CreateAccountView.cs</DependentUpon>

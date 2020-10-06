@@ -31,7 +31,7 @@ namespace MailManager.Components
             TxtHostname.Location = new System.Drawing.Point(532, 22);
             TxtHostname.Size = new System.Drawing.Size(150, 25);
             TxtHostname.Name = "TxtHostname";
-            TxtHostname.TabIndex = 4;
+            TxtHostname.TabIndex = 5;
             //
             // lblHostname
             //
