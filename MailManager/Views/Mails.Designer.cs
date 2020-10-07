@@ -115,6 +115,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Mails";
             this.Text = "Mails";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Mails_FormClosed);
             this.Load += new System.EventHandler(this.Mails_Load);
             this.pnlMailsView.ResumeLayout(false);
             this.pnlMailsView.PerformLayout();

@@ -274,5 +274,17 @@ namespace MailManager
 
             MessageBox.Show("Archivo .Zip creado", "Exito");
         }
+        // Evento que cierra la conexion con el correo.
+        private void Mails_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (mails.Protocol.Equals("IMAP"))
+            {
+                imp.Disconnect();
+            }
+            else
+            {
+                pop.Disconnect();
+            }
+        }
     }
 }
