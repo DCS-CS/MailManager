@@ -6,7 +6,7 @@ namespace MailManager.Class
 {
     internal class FireConfig
     {
-        // Método para autennticarte en firebase y poder manipular el base de datos.
+        // Método para autenticarte en firebase y poder manipular el base de datos.
         public static FirebaseClient GetClient()
         {
             string auth = "Et3rlgfdp90t0txaEi6SqdF83blB4XUgp5amSJDH";
