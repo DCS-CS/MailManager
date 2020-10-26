@@ -4,6 +4,7 @@
     using System.IO;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Windows.Forms;
 
     internal static class AES
     {
@@ -63,10 +64,23 @@
                 throw new ArgumentNullException("text");
             }
 
-            ICryptoTransform encryptor = myaes.CreateEncryptor(myaes.Key, myaes.IV);
-            byte[] cipher = Encoding.UTF8.GetBytes(text);
-            byte[] encryptedValue = encryptor.TransformFinalBlock(cipher, 0, cipher.Length);
-            encryptor.Dispose();
+            ICryptoTransform encryptor;
+            byte[] cipher = null;
+            byte[] encryptedValue = null;
+
+            try
+            {
+                encryptor = myaes.CreateEncryptor(myaes.Key, myaes.IV);
+                cipher = Encoding.UTF8.GetBytes(text);
+                encryptedValue = encryptor.TransformFinalBlock(cipher, 0, cipher.Length);
+                encryptor.Dispose();
+            }
+            catch
+            {
+                MessageBox.Show(
+                    "Error al intentar desencriptar",
+                    "Error");
+            }
 
             return Convert.ToBase64String(encryptedValue);
         }
@@ -78,17 +92,24 @@
                 throw new ArgumentNullException("cipher");
             }
 
-            byte[] mailEncrypt = Convert.FromBase64String(cipher);
+            byte[] mailEncrypt;
+            ICryptoTransform transform;
+            byte[] decryptedValue = null;
 
-            /*ICryptoTransform decryptor = myaes.CreateDecryptor(myaes.Key, myaes.IV);
-            MemoryStream memoryStream = new MemoryStream(mailEncrypt);
+            try
+            {
+                mailEncrypt = Convert.FromBase64String(cipher);
+                transform = myaes.CreateDecryptor(myaes.Key, myaes.IV);
+                decryptedValue = transform.TransformFinalBlock(mailEncrypt, 0, mailEncrypt.Length);
+            }
+            catch 
+            {
+                MessageBox.Show(
+                    "Error al intentar desencriptar",
+                    "Error");
+            }
 
-            CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
-
-            StreamReader srDecrypt = new StreamReader(cryptoStream);*/
-
-            ICryptoTransform transform = myaes.CreateDecryptor(myaes.Key, myaes.IV);
-            byte[] decryptedValue = transform.TransformFinalBlock(mailEncrypt, 0, mailEncrypt.Length);
+            
 
             return Encoding.UTF8.GetString(decryptedValue);
         }

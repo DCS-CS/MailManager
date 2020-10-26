@@ -1,6 +1,9 @@
-﻿using SelectPdf;
+﻿using MimeKit.Cryptography;
+using Org.BouncyCastle.Bcpg;
+using SelectPdf;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -64,12 +67,15 @@ namespace MailManager
                     }
                 }
 
+                int count = 1;
                 foreach (MailObject mail in ids)
                 {
-                    string pathMail = $"{path}\\{mail.Subject.Text}";
+                    string dateValid = getDateValid(mail.Date.Text);
+                    string pathMail = $"{path}\\{dateValid}";
+                    if (Directory.Exists(pathMail)) { pathMail = $"{path}\\{dateValid}_{count}"; count++; }
                     Directory.CreateDirectory(pathMail);// Creo una carpeta con el nombre del asunto del correo, en la direccion especificada
                     FileStream file = new FileStream($"{pathMail}\\body.pdf", FileMode.OpenOrCreate, FileAccess.Write);// Creo el archivo PDF.
-
+                    //TODO: 
                     HtmlToPdf converter = new HtmlToPdf();
                     PdfDocument doc = null; // Creo el documento PDF convirtiendo el html a PDF
                     if (mails.Protocol.Equals("IMAP"))
@@ -143,7 +149,7 @@ namespace MailManager
                     pnlMailsView.Controls.Clear();
                     tv.Enabled = false;
                     await Task.Run(() => { imp.GetEmails(selected.Text, this); });
-
+                    chkSelectAll.Checked = false;
                 }
             }
             tv.Enabled = true;
@@ -240,9 +246,12 @@ namespace MailManager
                 }
                 // Creo una carpeta temporal en la carpeta de Archivos temporales.
                 Directory.CreateDirectory(pathTemp);
+                int count = 1;
                 foreach (var mail in ids)// guardo los correos en en la carpeta temporal.
                 {
-                    string pathMail = $"{pathTemp}\\{mail.Subject.Text}";
+                    string dateValid = getDateValid(mail.Date.Text);
+                    string pathMail = $"{pathTemp}\\{dateValid}";
+                    if (Directory.Exists(pathMail)) { pathMail = $"{pathTemp}\\{dateValid}_{count}"; count++; }
                     Directory.CreateDirectory(pathMail);
                     FileStream file = new FileStream($"{pathMail}\\body.pdf", FileMode.OpenOrCreate, FileAccess.Write);
 
@@ -270,12 +279,41 @@ namespace MailManager
                     }
                 }
 
-                ZipFile.CreateFromDirectory(pathTemp, $"{path}\\Correos.zip");// Creo el archivo ZIP usando la carpeta temporal.
+                string pathDestiny = $"{path}\\Correos.zip";
+                if (File.Exists(pathDestiny))
+                {
+                    pathDestiny = $"{path}\\Correos{count}.zip";
+                }
+                ZipFile.CreateFromDirectory(pathTemp, pathDestiny);// Creo el archivo ZIP usando la carpeta temporal.
                 Directory.Delete(pathTemp, true);// Borro la carpeta temporal.
             });
 
             MessageBox.Show("Archivo .Zip creado", "Exito");
         }
+
+        private string getDateValid(string dateOld)
+        {
+            DateTimeOffset date = new DateTimeOffset();
+            bool format = DateTimeOffset.TryParseExact(
+                dateOld, 
+                new string[] {
+                    "ddd, dd MMM yyyy HH:mm:ss zzz",
+                    "ddd, d MMM yyyy HH:mm:ss zzz",
+                    "ddd, dd MMM yyyy HH:mm:ss zzz (PDT)",
+                    "ddd, d MMM yyyy HH:mm:ss zzz (UTC)",
+                    "ddd, dd MMM yyyy HH:mm:ss zzz (PST)",
+                    "ddd, d MMM yyyy HH:mm:ss zzz (GMT)",
+                    "ddd, d MMM yyyy HH:mm:ss (GMT)"
+                },
+                CultureInfo.CreateSpecificCulture("en-US"),
+                DateTimeStyles.None,
+                out date);
+            
+            return format ? date.ToString("yyyy-MM-dd") : "";
+            
+        }
+
+
         // Evento que cierra la conexion con el correo.
         private void Mails_FormClosed(object sender, FormClosedEventArgs e)
         {

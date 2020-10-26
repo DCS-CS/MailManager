@@ -43,13 +43,14 @@
             this.txtVerificationMail = new System.Windows.Forms.TextBox();
             this.lblManagerMail = new System.Windows.Forms.Label();
             this.erp = new System.Windows.Forms.ErrorProvider(this.components);
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.erp)).BeginInit();
             this.SuspendLayout();
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(524, 9);
+            this.lblName.Location = new System.Drawing.Point(543, 41);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(62, 17);
             this.lblName.TabIndex = 0;
@@ -58,7 +59,7 @@
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(301, 9);
+            this.lblPassword.Location = new System.Drawing.Point(320, 41);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(85, 17);
             this.lblPassword.TabIndex = 1;
@@ -66,14 +67,14 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(527, 29);
+            this.txtName.Location = new System.Drawing.Point(546, 61);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(193, 22);
             this.txtName.TabIndex = 2;
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(304, 29);
+            this.txtPassword.Location = new System.Drawing.Point(323, 61);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(202, 22);
@@ -84,7 +85,7 @@
             // 
             this.btnAddPanel.BackColor = System.Drawing.Color.Transparent;
             this.btnAddPanel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnAddPanel.Location = new System.Drawing.Point(16, 126);
+            this.btnAddPanel.Location = new System.Drawing.Point(16, 144);
             this.btnAddPanel.Name = "btnAddPanel";
             this.btnAddPanel.Size = new System.Drawing.Size(75, 31);
             this.btnAddPanel.TabIndex = 3;
@@ -95,7 +96,7 @@
             // btnRemovePanel
             // 
             this.btnRemovePanel.BackColor = System.Drawing.Color.Transparent;
-            this.btnRemovePanel.Location = new System.Drawing.Point(97, 126);
+            this.btnRemovePanel.Location = new System.Drawing.Point(97, 144);
             this.btnRemovePanel.Name = "btnRemovePanel";
             this.btnRemovePanel.Size = new System.Drawing.Size(75, 31);
             this.btnRemovePanel.TabIndex = 4;
@@ -110,15 +111,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlAccountMails.AutoScroll = true;
             this.pnlAccountMails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlAccountMails.Location = new System.Drawing.Point(16, 163);
+            this.pnlAccountMails.Location = new System.Drawing.Point(16, 181);
             this.pnlAccountMails.Name = "pnlAccountMails";
-            this.pnlAccountMails.Size = new System.Drawing.Size(908, 260);
+            this.pnlAccountMails.Size = new System.Drawing.Size(908, 291);
             this.pnlAccountMails.TabIndex = 6;
             // 
             // btnBack
             // 
             this.btnBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBack.Location = new System.Drawing.Point(12, 435);
+            this.btnBack.Location = new System.Drawing.Point(12, 484);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(91, 31);
             this.btnBack.TabIndex = 7;
@@ -129,7 +130,7 @@
             // btnCreateAccount
             // 
             this.btnCreateAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCreateAccount.Location = new System.Drawing.Point(812, 435);
+            this.btnCreateAccount.Location = new System.Drawing.Point(812, 484);
             this.btnCreateAccount.Name = "btnCreateAccount";
             this.btnCreateAccount.Size = new System.Drawing.Size(112, 31);
             this.btnCreateAccount.TabIndex = 8;
@@ -140,7 +141,7 @@
             // btnAdvancedOptions
             // 
             this.btnAdvancedOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdvancedOptions.Location = new System.Drawing.Point(752, 126);
+            this.btnAdvancedOptions.Location = new System.Drawing.Point(752, 144);
             this.btnAdvancedOptions.Name = "btnAdvancedOptions";
             this.btnAdvancedOptions.Size = new System.Drawing.Size(172, 31);
             this.btnAdvancedOptions.TabIndex = 5;
@@ -151,7 +152,7 @@
             // lblVerificationMail
             // 
             this.lblVerificationMail.AutoSize = true;
-            this.lblVerificationMail.Location = new System.Drawing.Point(13, 9);
+            this.lblVerificationMail.Location = new System.Drawing.Point(32, 41);
             this.lblVerificationMail.Name = "lblVerificationMail";
             this.lblVerificationMail.Size = new System.Drawing.Size(59, 17);
             this.lblVerificationMail.TabIndex = 11;
@@ -159,7 +160,7 @@
             // 
             // txtVerificationMail
             // 
-            this.txtVerificationMail.Location = new System.Drawing.Point(16, 29);
+            this.txtVerificationMail.Location = new System.Drawing.Point(35, 61);
             this.txtVerificationMail.Name = "txtVerificationMail";
             this.txtVerificationMail.Size = new System.Drawing.Size(263, 22);
             this.txtVerificationMail.TabIndex = 0;
@@ -169,22 +170,33 @@
             // 
             this.lblManagerMail.AutoSize = true;
             this.lblManagerMail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblManagerMail.Location = new System.Drawing.Point(12, 93);
+            this.lblManagerMail.Location = new System.Drawing.Point(12, 114);
             this.lblManagerMail.Name = "lblManagerMail";
-            this.lblManagerMail.Size = new System.Drawing.Size(133, 18);
+            this.lblManagerMail.Size = new System.Drawing.Size(108, 18);
             this.lblManagerMail.TabIndex = 13;
-            this.lblManagerMail.Text = "Gestionar correos:";
+            this.lblManagerMail.Text = "Datos correos:";
             // 
             // erp
             // 
             this.erp.ContainerControl = this;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(13, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(125, 18);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Datos de acceso:";
             // 
             // CreateAccountView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(937, 483);
+            this.ClientSize = new System.Drawing.Size(937, 532);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblManagerMail);
             this.Controls.Add(this.txtVerificationMail);
             this.Controls.Add(this.lblVerificationMail);
@@ -223,5 +235,6 @@
         private System.Windows.Forms.TextBox txtVerificationMail;
         private System.Windows.Forms.Label lblManagerMail;
         private System.Windows.Forms.ErrorProvider erp;
+        private System.Windows.Forms.Label label1;
     }
 }
