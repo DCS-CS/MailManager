@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Navigation;
 
 namespace MailManager
 {
@@ -59,10 +60,30 @@ namespace MailManager
             if (!string.IsNullOrEmpty(txtName.Text) && !string.IsNullOrEmpty(txtPassword.Text)
                 && !string.IsNullOrEmpty(txtVerificationMail.Text))
             { // verifico el correo, la contraseña y el nombre introducidos para que no esten vacios
-                FirebaseClient client = FireConfig.GetClient();
-                FirebaseAuthProvider authProvider = FireConfig.GetAuthProvider();
+                FirebaseClient client = UtilsMailManager.GetClient();
+                FirebaseAuthProvider authProvider = UtilsMailManager.GetAuthProvider();
                 FirebaseAuthLink createUser = null;
-                
+
+                var query2 = await client
+                        .Child("User Account")
+                        .Child($"{txtName.Text} Mails")
+                        .OrderByKey()
+                        .OnceAsync<List<MailAccount>>();
+
+                List<MailAccount> mails = null;
+                foreach (var account in query2)
+                {
+                    mails = account.Object;
+                }
+
+                if(mails == null)
+                {
+                    MessageBox.Show(
+                        "El nombre ya existe",
+                        "Error");
+                    return;
+                }
+
                 try //Creo el usuario
                 {
                     createUser = await authProvider.CreateUserWithEmailAndPasswordAsync(

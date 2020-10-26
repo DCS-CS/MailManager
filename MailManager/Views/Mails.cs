@@ -1,4 +1,5 @@
-﻿using SelectPdf;
+﻿using MailManager.Class;
+using SelectPdf;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -280,21 +281,13 @@ namespace MailManager
                 string pathDestiny = $"{path}\\Correos.zip";
                 if (File.Exists(pathDestiny))
                 {
-                    pathDestiny = $"{path}\\Correos-{RandomString(5)}.zip";
+                    pathDestiny = $"{path}\\Correos-{UtilsMailManager.RandomString(5)}.zip";
                 }
                 ZipFile.CreateFromDirectory(pathTemp, pathDestiny);// Creo el archivo ZIP usando la carpeta temporal.
                 Directory.Delete(pathTemp, true);// Borro la carpeta temporal.
             });
 
             MessageBox.Show("Archivo .Zip creado", "Exito");
-        }
-
-        public static string RandomString(int length)
-        {
-            Random random = new Random();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         private string getDateValid(string dateOld)

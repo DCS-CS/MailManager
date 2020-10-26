@@ -19,7 +19,7 @@ namespace MailManager.Views
         {
             try
             {
-                FirebaseAuthProvider firebaseAuthProvider = FireConfig.GetAuthProvider();
+                FirebaseAuthProvider firebaseAuthProvider = UtilsMailManager.GetAuthProvider();
                 firebaseAuthProvider.SendPasswordResetEmailAsync(txtEmail.Text);
                 MessageBox.Show(
                     "Correo Enviado",

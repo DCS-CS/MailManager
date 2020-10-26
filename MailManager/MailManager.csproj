@@ -63,7 +63,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
@@ -260,7 +260,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class\AES.cs" />
-    <Compile Include="Class\FireConfig.cs" />
+    <Compile Include="Class\UtilsMailManager.cs" />
     <Compile Include="Class\Imap.cs" />
     <Compile Include="Class\MailAccount.cs" />
     <Compile Include="Components\AdvancedMailsPanel.cs">
@@ -360,7 +360,6 @@
     <EmbeddedResource Include="Views\ProfileView.resx">
       <DependentUpon>ProfileView.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="MailManager_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

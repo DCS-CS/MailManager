@@ -29,7 +29,7 @@ namespace MailManager.Views
         // Evento que recupera y muestra los datos de tu cuenta al cargar la ventana.
         private async void ProfileView_Load(object sender, EventArgs e)
         {
-            FirebaseClient client = FireConfig.GetClient();
+            FirebaseClient client = UtilsMailManager.GetClient();
 
             txtVerificationMail.Text = MainView.UserApp.Email;
             txtName.Text = MainView.UserApp.DisplayName;
@@ -105,7 +105,7 @@ namespace MailManager.Views
                     ));
             }
 
-            FirebaseClient client = FireConfig.GetClient();
+            FirebaseClient client = UtilsMailManager.GetClient();
             // Borro los datos de firebase.
             await client
                 .Child("User Account")

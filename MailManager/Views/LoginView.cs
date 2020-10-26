@@ -35,8 +35,8 @@ namespace MailManager
          */
         private async void BtnLogin_Click(object sender, EventArgs e)
         {
-            FirebaseClient client = FireConfig.GetClient();
-            FirebaseAuthProvider authProvider = FireConfig.GetAuthProvider();
+            FirebaseClient client = UtilsMailManager.GetClient();
+            FirebaseAuthProvider authProvider = UtilsMailManager.GetAuthProvider();
 
             if (string.IsNullOrEmpty(txtUser.Text) || string.IsNullOrEmpty(txtPassword.Text))
             {
@@ -84,6 +84,10 @@ namespace MailManager
                                 account.Puerto,
                                 AES.Dencrypt(account.Protocol),
                                 account.SSL));
+                        }
+                        if (string.IsNullOrEmpty(mailsDencrypt[0].Mail))
+                        {
+                            return;
                         }
 
                         view.ChangeView(new ManagedAccountView(mailsDencrypt));
