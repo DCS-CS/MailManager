@@ -78,7 +78,7 @@
             catch
             {
                 MessageBox.Show(
-                    "Error al intentar desencriptar",
+                    "Error al intentar encriptar",
                     "Error");
             }
 
