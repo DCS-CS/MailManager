@@ -190,7 +190,7 @@ namespace MailManager
                 int position = mail.IndexOf('@');
                 host = mail.Substring(position + 1);
             }
-            //TODO: Terminar de añadir hostname
+            //TODO: añadir hostname
             Dictionary<string, string> hostNameList = new Dictionary<string, string>
             {
                 { "gmail.com", "imap.gmail.com" },
@@ -200,7 +200,9 @@ namespace MailManager
                 { "hotmail.com", "imap-mail.outlook.com" },
                 { "hotmail.es", "imap-mail.outlook.com" },
                 { "outlook.com", "imap-mail.outlook.com" },
-                { "yahoo.com", "imap.mail.yahoo.com" }
+                { "yahoo.com", "imap.mail.yahoo.com" },
+                { "aol.com", "imap.aol.com" },
+                { "zohomail.eu", "imap.zoho.com" }
             };
 
             return hostNameList[host];
