@@ -1,6 +1,4 @@
-﻿using MimeKit.Cryptography;
-using Org.BouncyCastle.Bcpg;
-using SelectPdf;
+﻿using SelectPdf;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -232,7 +230,7 @@ namespace MailManager
 
             string pathTemp = $"{Path.GetTempPath()}{treeView1.SelectedNode.Text}";
 
-            await Task.Run(() => 
+            await Task.Run(() =>
             {
                 List<MailObject> list = pnlMailsView.Controls.OfType<MailObject>().ToList();
                 List<MailObject> ids = new List<MailObject>();
@@ -282,7 +280,7 @@ namespace MailManager
                 string pathDestiny = $"{path}\\Correos.zip";
                 if (File.Exists(pathDestiny))
                 {
-                    pathDestiny = $"{path}\\Correos{count}.zip";
+                    pathDestiny = $"{path}\\Correos-{RandomString(5)}.zip";
                 }
                 ZipFile.CreateFromDirectory(pathTemp, pathDestiny);// Creo el archivo ZIP usando la carpeta temporal.
                 Directory.Delete(pathTemp, true);// Borro la carpeta temporal.
@@ -291,11 +289,19 @@ namespace MailManager
             MessageBox.Show("Archivo .Zip creado", "Exito");
         }
 
+        public static string RandomString(int length)
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         private string getDateValid(string dateOld)
         {
             DateTimeOffset date = new DateTimeOffset();
             bool format = DateTimeOffset.TryParseExact(
-                dateOld, 
+                dateOld,
                 new string[] {
                     "ddd, dd MMM yyyy HH:mm:ss zzz",
                     "ddd, d MMM yyyy HH:mm:ss zzz",
@@ -305,12 +311,12 @@ namespace MailManager
                     "ddd, d MMM yyyy HH:mm:ss zzz (GMT)",
                     "ddd, d MMM yyyy HH:mm:ss (GMT)"
                 },
-                CultureInfo.CreateSpecificCulture("en-US"),
+                CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
                 out date);
-            
+
             return format ? date.ToString("yyyy-MM-dd") : "";
-            
+
         }
 
 

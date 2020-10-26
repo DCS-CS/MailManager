@@ -80,6 +80,7 @@
                 MessageBox.Show(
                     "Error al intentar encriptar",
                     "Error");
+                return null;
             }
 
             return Convert.ToBase64String(encryptedValue);
@@ -107,9 +108,8 @@
                 MessageBox.Show(
                     "Error al intentar desencriptar",
                     "Error");
+                return null;
             }
-
-            
 
             return Encoding.UTF8.GetString(decryptedValue);
         }
