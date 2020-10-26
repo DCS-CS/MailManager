@@ -70,13 +70,13 @@ namespace MailManager
                         .OrderByKey()
                         .OnceAsync<List<MailAccount>>();
 
-                List<MailAccount> mails = null;
+                List<MailAccount> mailsQuery = null;
                 foreach (var account in query2)
                 {
-                    mails = account.Object;
+                    mailsQuery = account.Object;
                 }
 
-                if(mails == null)
+                if(mailsQuery == null)
                 {
                     MessageBox.Show(
                         "El nombre ya existe",
