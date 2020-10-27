@@ -76,7 +76,7 @@ namespace MailManager
                     mailsQuery = account.Object;
                 }
 
-                if(mailsQuery == null)
+                if(mailsQuery != null)
                 {
                     MessageBox.Show(
                         "El nombre ya existe",

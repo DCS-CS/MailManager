@@ -126,6 +126,8 @@ namespace MailManager
                     hostname = GetHostName(mails.Mail);
                 }
 
+                if (string.IsNullOrEmpty(hostname))
+                    return;
                 imp.Connect(hostname, port, mails.SSL, mails.Mail, mails.Password);
                 imp.Folders(treeView1);
             }
@@ -208,8 +210,17 @@ namespace MailManager
                 { "aol.com", "imap.aol.com" },
                 { "zohomail.eu", "imap.zoho.com" }
             };
-
-            return hostNameList[host];
+            try
+            {
+                return hostNameList[host];
+            }
+            catch
+            {
+                MessageBox.Show(
+                    "Ha ocurrido un error con el hostname. \nVaya a Archivo>>Configuración y verifique el correo registado", 
+                    "Error");
+            }
+            return "";
         }
         // Evento para guardar los correos seleccionados en un archivo ZIP
         private async void btnSaveZip_Click(object sender, EventArgs e)
