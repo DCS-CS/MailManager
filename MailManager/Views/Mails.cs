@@ -74,7 +74,6 @@ namespace MailManager
                     if (Directory.Exists(pathMail)) { pathMail = $"{path}\\{dateValid}_{count}"; count++; }
                     Directory.CreateDirectory(pathMail);// Creo una carpeta con el nombre del asunto del correo, en la direccion especificada
                     FileStream file = new FileStream($"{pathMail}\\body.pdf", FileMode.OpenOrCreate, FileAccess.Write);// Creo el archivo PDF.
-                    //TODO: 
                     HtmlToPdf converter = new HtmlToPdf();
                     PdfDocument doc = null; // Creo el documento PDF convirtiendo el html a PDF
                     if (mails.Protocol.Equals("IMAP"))
@@ -195,7 +194,7 @@ namespace MailManager
                 int position = mail.IndexOf('@');
                 host = mail.Substring(position + 1);
             }
-            //TODO: añadir hostname
+            //TODO: Lista de proveedores y servidores IMAP
             Dictionary<string, string> hostNameList = new Dictionary<string, string>
             {
                 { "gmail.com", "imap.gmail.com" },
@@ -289,7 +288,7 @@ namespace MailManager
 
             MessageBox.Show("Archivo .Zip creado", "Exito");
         }
-
+        //Método para convertir la fecha "ddd, dd MMM yyyy HH:mm:ss zzz" a "yyyy-MM-dd"
         private string getDateValid(string dateOld)
         {
             DateTimeOffset date = new DateTimeOffset();
@@ -311,7 +310,6 @@ namespace MailManager
             return format ? date.ToString("yyyy-MM-dd") : "";
 
         }
-
 
         // Evento que cierra la conexion con el correo.
         private void Mails_FormClosed(object sender, FormClosedEventArgs e)
