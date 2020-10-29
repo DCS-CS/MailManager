@@ -6,9 +6,7 @@ using MailManager.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Navigation;
 
 namespace MailManager
 {
@@ -76,12 +74,40 @@ namespace MailManager
                     mailsQuery = account.Object;
                 }
 
-                if(mailsQuery != null)
+                if (mailsQuery != null)
                 {
                     MessageBox.Show(
                         "El nombre ya existe",
                         "Error");
                     return;
+                }
+
+                if (!advancedOption) // Compruebo, dependiendo si se utilizan las opciones avanzadas o no, los correos introducidos
+                {
+                    foreach (MailsCreatePanel a in pnlAccountMails.Controls.OfType<MailsCreatePanel>().ToList())
+                    {
+                        if (string.IsNullOrEmpty(a.TxtMail.Text) || string.IsNullOrEmpty(a.TxtPasswordMail.Text))
+                        {
+                            MessageBox.Show(
+                                "Debe registrar un correo con su contraseña",
+                                "Error");
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (AdvancedMailsPanel a in pnlAccountMails.Controls.OfType<AdvancedMailsPanel>().ToList())
+                    {
+                        if (string.IsNullOrEmpty(a.TxtMail.Text) || string.IsNullOrEmpty(a.TxtPasswordMail.Text)
+                            || string.IsNullOrEmpty(a.TxtPort.Text) || string.IsNullOrEmpty(a.TxtHostname.Text))
+                        {
+                            MessageBox.Show(
+                                "Debe registrar un correo con su contraseña, puerto y hostname",
+                                "Error");
+                            return;
+                        }
+                    }
                 }
 
                 try //Creo el usuario
@@ -102,24 +128,17 @@ namespace MailManager
 
                 List<MailAccount> mails = new List<MailAccount>();
                 AES.CryptoConfigure(); // Configuro el lenguage de encriptacion
-                
+
                 if (!advancedOption) // Creo, dependiendo si se utilizan las opciones avanzadas o no, una lista de MailAccount
                 {
                     foreach (MailsCreatePanel a in pnlAccountMails.Controls.OfType<MailsCreatePanel>().ToList())
                     {
-                        if(string.IsNullOrEmpty(a.TxtMail.Text) || string.IsNullOrEmpty(a.TxtPasswordMail.Text))
-                        {
-                            MessageBox.Show(
-                                "Debe registrar un correo con su contraseña",
-                                "Error");
-                            return;
-                        }
                         mails.Add(new MailAccount(
                             AES.Encrypt(a.TxtMail.Text),
-                            AES.Encrypt(a.TxtPasswordMail.Text), 
-                            null, 
+                            AES.Encrypt(a.TxtPasswordMail.Text),
+                            null,
                             993,
-                            AES.Encrypt("IMAP"), 
+                            AES.Encrypt("IMAP"),
                             true));
                     }
                 }
@@ -127,25 +146,17 @@ namespace MailManager
                 {
                     foreach (AdvancedMailsPanel a in pnlAccountMails.Controls.OfType<AdvancedMailsPanel>().ToList())
                     {
-                        if (string.IsNullOrEmpty(a.TxtMail.Text) || string.IsNullOrEmpty(a.TxtPasswordMail.Text)
-                            || string.IsNullOrEmpty(a.TxtPort.Text) || string.IsNullOrEmpty(a.TxtHostname.Text))
-                        {
-                            MessageBox.Show(
-                                "Debe registrar un correo con su contraseña, puerto y hostname",
-                                "Error");
-                            return;
-                        }
                         mails.Add(new MailAccount(
                             AES.Encrypt(a.TxtMail.Text),
                             AES.Encrypt(a.TxtPasswordMail.Text),
-                            AES.Encrypt(a.TxtHostname.Text), 
+                            AES.Encrypt(a.TxtHostname.Text),
                             Convert.ToInt32(a.TxtPort.Text),
-                            AES.Encrypt(a.CbProtocol.SelectedItem.ToString()), 
+                            AES.Encrypt(a.CbProtocol.SelectedItem.ToString()),
                             true));
                     }
                 }
                 User user = await authProvider.GetUserAsync(createUser.FirebaseToken);
-                
+
                 _ = await client // query para guardar en la base de datos de firebase los correos introducidos.
                     .Child("User Account")
                     .Child($"{user.DisplayName} Mails")
